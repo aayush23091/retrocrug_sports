@@ -1,34 +1,73 @@
+// import express from "express";
+// import bodyParser from "body-parser";
+// import { db } from "./database/index.js"; // Ensure this function connects to your database
+// import { userRouter, authRouter } from "./route/index.js"; // Combined import for clarity
+// import dotenv from "dotenv";
+// import { authenticateToken } from "./middleware/token-middleware.js";
+// import router from "./route/uploadRoutes.js";
+// import { createUploadsFolder } from "./security/helper.js";
+
+// // Load environment variables from .env file
+// dotenv.config();
+
+// const app = express();
+
+// // Use the port from environment variables or default to 5000
+// const port = process.env.PORT || 5000;
+
+// // Middleware to parse JSON requests
+// app.use(bodyParser.json());
+
+// // Apply authentication middleware to specific routes
+// app.use("/api/users", userRouter); // Public route
+// app.use("/api/auth", authRouter); // Public route
+// app.use(authenticateToken); // Apply to routes that need authentication
+// app.use("/api/file", router);
+
+// // Create uploads folder if it doesn't exist
+// createUploadsFolder();
+
+// // Start the server and connect to the database
+// app.listen(5000, function () {
+//   console.log(`Project running on port 5000`);
+//   db();
+// });
+
+
 import express from "express";
 import bodyParser from "body-parser";
-import { db } from "./database/index.js"; // Ensure this function connects to your database
-import { userRouter, authRouter } from "./route/index.js"; // Combined import for clarity
+import cors from "cors"; // <-- import CORS
+import { db } from "./database/index.js";
+import { userRouter, authRouter } from "./route/index.js";
 import dotenv from "dotenv";
 import { authenticateToken } from "./middleware/token-middleware.js";
 import router from "./route/uploadRoutes.js";
 import { createUploadsFolder } from "./security/helper.js";
 
-// Load environment variables from .env file
 dotenv.config();
 
 const app = express();
-
-// Use the port from environment variables or default to 5000
 const port = process.env.PORT || 5000;
 
-// Middleware to parse JSON requests
+// ✅ Enable CORS
+app.use(cors());
+
+// Parse JSON
 app.use(bodyParser.json());
 
-// Apply authentication middleware to specific routes
-app.use("/api/users", userRouter); // Public route
-app.use("/api/auth", authRouter); // Public route
-app.use(authenticateToken); // Apply to routes that need authentication
+// Public routes
+app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
+
+// Protect routes below
+app.use(authenticateToken);
 app.use("/api/file", router);
 
-// Create uploads folder if it doesn't exist
+// Create uploads folder
 createUploadsFolder();
 
-// Start the server and connect to the database
-app.listen(5000, function () {
-  console.log(`Project running on port 5000`);
+// Start server
+app.listen(port, function () {
+  console.log(`Project running on port ${port}`);
   db();
 });
