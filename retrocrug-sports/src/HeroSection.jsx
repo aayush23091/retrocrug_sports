@@ -9,7 +9,7 @@ const SportsHomepage = () => {
     {
       title: "TIMELESS GEAR FOR TODAY'S WARRIORS",
       description: "Discover the best in sports equipment and apparel, crafted for performance and durability. Whether you're a professional or a hobbyist, we have everything you need to excel.",
-      image: "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&h=400&fit=crop&crop=center"
+      image: "hero.jpg"
     },
     {
       title: "PREMIUM SPORTS COLLECTION",
@@ -21,19 +21,19 @@ const SportsHomepage = () => {
   const sportsCategories = [
     {
       name: "CRICKET",
-      image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=400&h=300&fit=crop&crop=center"
+      image: "cricket.jpg"
     },
     {
       name: "RUGBY",
-      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop&crop=center"
+      image: "rugby.jpg"
     },
     {
       name: "FOOTBALL",
-      image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&h=300&fit=crop&crop=center"
+      image: "football.webp"
     },
     {
       name: "TENNIS",
-      image: "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=400&h=300&fit=crop&crop=center"
+      image: "tennis.jpeg"
     }
   ];
 

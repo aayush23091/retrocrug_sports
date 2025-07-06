@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import HeroSection from './HeroSection';
+import BestSellers from './BestSellers';
 
 
 const HomePage = () => {
@@ -10,6 +11,7 @@ const HomePage = () => {
     <div>
       <Header />
       <HeroSection />
+      <BestSellers />
       <Footer />
     </div>
   );
