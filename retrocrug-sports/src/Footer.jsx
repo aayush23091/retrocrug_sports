@@ -1,6 +1,6 @@
-// src/components/Footer.jsx
+
 import React from 'react';
-import './Footer.css'; // create this to move footer styles
+import './Footer.css';
 
 export default function Footer() {
   return (
@@ -8,7 +8,9 @@ export default function Footer() {
       <div className="footerfirst">
         <img src="/retrocruglogo.png" alt="logo" />
         <br />
-        Copyright © 2025 - All rights reserved.
+        <p className="copyright">
+          Copyright © 2025 - All rights reserved.
+        </p>
       </div>
       <div className="footersecond">
         <h3>Contact Us</h3>
