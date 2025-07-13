@@ -8,8 +8,8 @@
 .hero-section {
   position: relative;
   overflow: hidden;
-  padding-top: 10px;
-  padding-left: 0px;
+  padding-top: 0px;
+  padding-left: 45px;
 }
 
 .hero-slider {
@@ -21,7 +21,8 @@
   min-width: 100%;
   display: flex;
   align-items: center;
-  padding: 120px 32px;
+  /* padding: 120px 32px; */
+  padding-top: 80px;
   gap: 32px;
   min-height: 70vh;
 }
@@ -74,7 +75,8 @@
 .hero-image-container {
   flex: 1;
   padding-right: 300px;
-  padding-top: 300px;
+  padding-top: 30px;
+  /* padding-top: 300px; */
   max-width: 700px;
   position: relative;
 }
