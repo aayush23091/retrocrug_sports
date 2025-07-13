@@ -5,6 +5,7 @@ import Footer from './Footer';
 import NewArrivals from './NewArrivals';
 import HeroSection from './HeroSection';
 import BestSellers from './BestSellers';
+import BrandsWeCarry from './BrandsWeCarry';
 
 
 const HomePage = () => {
@@ -14,6 +15,7 @@ const HomePage = () => {
       <HeroSection />
       <BestSellers />
       <NewArrivals />
+      <BrandsWeCarry />
       <Footer />
     </div>
   );
