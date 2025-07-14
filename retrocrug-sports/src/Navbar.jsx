@@ -30,7 +30,7 @@ export default function Header() {
         </div>
 
         <div className="nav-right">
-          <Link to="/cart"><ShoppingCart className="icon" /></Link>
+          <Link to="/Cart"><ShoppingCart className="icon" /></Link>
           <div className="account-wrapper" onClick={toggleDropdown}>
             <User className="icon" />
             {isDropdownOpen && (

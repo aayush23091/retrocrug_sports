@@ -8,6 +8,7 @@ import Dashboard from './Dashboard';
 import Contact from './Contact';
 import About from './About';
 import Account from './Account';
+import Cart from './Cart';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/About" element={<About />} />
         <Route path="/Account" element={<Account />} />
+        <Route path="/Cart" element={<Cart />} />
       </Routes>
     </Router>
   );
