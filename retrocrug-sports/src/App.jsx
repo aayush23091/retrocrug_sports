@@ -5,6 +5,7 @@ import LoginPage from './LoginPage';
 import SignUpPage from './SignUpPage'; 
 import Homepage from './Homepage';
 import Dashboard from './Dashboard';
+import Contact from './Contact';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/loginPage" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/Contact" element={<Contact />} />
       </Routes>
     </Router>
   );
