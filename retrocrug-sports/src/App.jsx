@@ -7,6 +7,7 @@ import Homepage from './Homepage';
 import Dashboard from './Dashboard';
 import Contact from './Contact';
 import About from './About';
+import Account from './Account';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/About" element={<About />} />
+        <Route path="/Account" element={<Account />} />
       </Routes>
     </Router>
   );

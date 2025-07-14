@@ -35,7 +35,7 @@ export default function Header() {
             <User className="icon" />
             {isDropdownOpen && (
               <div className="dropdown">
-                <Link to="/account">Account</Link>
+                <Link to="/Account">Account</Link>
                 <Link to="/logout">Logout</Link>
               </div>
             )}
