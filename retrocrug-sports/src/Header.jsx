@@ -15,7 +15,7 @@ export default function Header() {
         <div className="nav-right">
           <ul>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/products">Products</Link></li>
+            <li><Link to="/Product">Products</Link></li>
             <li><Link to="/Contact">Contact</Link></li>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/loginPage">Login</Link></li>
