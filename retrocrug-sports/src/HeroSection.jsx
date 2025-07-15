@@ -1,8 +1,11 @@
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './HeroSection.css';
 
 const SportsHomepage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
   const heroSlides = [
     {
@@ -20,19 +23,23 @@ const SportsHomepage = () => {
   const sportsCategories = [
     {
       name: "CRICKET",
-      image: "cricket.jpg"
+      image: "cricket.jpg",
+      route: "/Cricket"
     },
     {
       name: "RUGBY",
-      image: "rugby.jpg"
+      image: "rugby.jpg",
+      route: "/Rugby"
     },
     {
       name: "FOOTBALL",
-      image: "football.webp"
+      image: "football.webp",
+      route: "/Football"
     },
     {
       name: "TENNIS",
-      image: "tennis.jpeg"
+      image: "tennis.jpeg",
+      route: "/Tennis"
     }
   ];
 
@@ -53,7 +60,7 @@ const SportsHomepage = () => {
                 <p className="hero-description">
                   {slide.description}
                 </p>
-                <button className="hero-button">
+                <button className="hero-button" onClick={() => navigate('/Product')}>
                   EXPLORE PRODUCTS
                 </button>
               </div>
@@ -83,22 +90,22 @@ const SportsHomepage = () => {
 
       {/* Sports Categories Section */}
       <div className="sports-section">
-        <h2 className="sports-title">
-          SHOP BY SPORTS
-        </h2>
-        
+        <h2 className="sports-title">SHOP BY SPORTS</h2>
         <div className="sports-grid">
           {sportsCategories.map((sport, index) => (
-            <div key={index} className="sport-card">
+            <div
+              key={index}
+              className="sport-card"
+              onClick={() => navigate(sport.route)}
+              style={{ cursor: 'pointer' }}
+            >
               <img 
                 src={sport.image} 
                 alt={sport.name}
                 className="sport-image"
               />
               <div className="sport-overlay"></div>
-              <h3 className="sport-name">
-                {sport.name}
-              </h3>
+              <h3 className="sport-name">{sport.name}</h3>
             </div>
           ))}
         </div>
