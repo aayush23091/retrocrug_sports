@@ -13,6 +13,7 @@ import Product from './Product';
 import Cricket from './Cricket';
 import Football from './Football';
 import Rugby from './Rugby';
+import Tennis from './Tennis';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/Cricket" element={<Cricket />} />
         <Route path="/Football" element={<Football />} />
          <Route path="/Rugby" element={<Rugby />} />
+         <Route path="/Tennis" element={<Tennis />} />
       </Routes>
     </Router>
   );
