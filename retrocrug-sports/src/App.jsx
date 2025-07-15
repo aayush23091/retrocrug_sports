@@ -11,6 +11,7 @@ import Account from './Account';
 import Cart from './Cart';
 import Product from './Product';
 import Cricket from './Cricket';
+import Football from './Football';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Product" element={<Product />} />
         <Route path="/Cricket" element={<Cricket />} />
+        <Route path="/Football" element={<Football />} />
       </Routes>
     </Router>
   );
