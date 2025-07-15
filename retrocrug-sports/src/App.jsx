@@ -10,6 +10,7 @@ import About from './About';
 import Account from './Account';
 import Cart from './Cart';
 import Product from './Product';
+import Cricket from './Cricket';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/Account" element={<Account />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/Product" element={<Product />} />
+        <Route path="/Cricket" element={<Cricket />} />
       </Routes>
     </Router>
   );

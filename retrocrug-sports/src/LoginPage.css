@@ -212,9 +212,6 @@ section .welcomesection {
   margin-bottom: 10px;
 }
 
-.detailsection span {
-  /* color: lightgray; */
-}
 
 .detailsection form {
   display: flex;
