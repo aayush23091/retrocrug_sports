@@ -14,6 +14,7 @@ import Cricket from './Cricket';
 import Football from './Football';
 import Rugby from './Rugby';
 import Tennis from './Tennis';
+import NotFound from './NotFound';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/loginPage" element={<LoginPage />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/*" element={<NotFound />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/About" element={<About />} />
