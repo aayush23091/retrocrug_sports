@@ -28,7 +28,8 @@ nav {
   z-index: 1000;
 }
 .logo .retro {
-  height: 75px !important;
+  padding-top: 40px;
+  height: 120px !important;
   width: 75px !important;
   object-fit: contain;
 }
