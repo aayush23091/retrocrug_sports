@@ -72,43 +72,36 @@ const Homepage = () => {
   const bestSellers = [
     {
       id: 1,
-      name: "Kookaburra Ghost Pro",
-      price: "RS.85,000",
-      image: "kook_ghostpro_main.png",
-      alt: "Cricket bat"
+      name: 'SS English Willow',
+      price: 'RS.10,500',
+      image: '/bat.png',
+      alt: 'Cricket Bat'
     },
     {
       id: 2,
-      name: "Gilbert G-TR4000",
-      price: "RS.2,300",
-      image: "gilbertgt.jpg",
-      alt: "Rugby ball"
+      name: 'Kookaburra Ball',
+      price: 'RS.5,500',
+      image: '/ball.png',
+      alt: 'Cricket Ball'
     },
     {
       id: 3,
-      name: "adidas Football Pro",
-      price: "RS.5,500",
-      image: "uefaball.webp",
-      alt: "Football"
-    },
-    {
-      id: 4,
-      name: "Wilson Tour Slam",
-      price: "RS.7,500",
-      image: "wilsonracket.jpeg",
-      alt: "Tennis racket"
+      name: 'Forza Rugby Ball',
+      price: 'RS.1,950',
+      image: '/rugby.png',
+      alt: 'Rugby Ball'
     }
   ];
 
   return (
     <div className="homepage">
-      {/* Best Sellers Section */}
       <section className="best-sellers">
         <div className="container">
           <div className="section-header">
-            <h2>Best-sellers</h2>
+            <h2 className="section-title">Best-sellers</h2>
             <a href="#" className="view-all">View all</a>
           </div>
+
           <div className="products-grid">
             {bestSellers.map((product) => (
               <div key={product.id} className="product-card">
@@ -132,3 +125,4 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
