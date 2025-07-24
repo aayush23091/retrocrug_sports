@@ -1,16 +1,15 @@
-// AboutUs.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './About.css';
-import Navbar from './Navbar';
+import Header from './Header';
 import Footer from './Footer';
 
-export default function AboutUs() {
+export default function About() {
   const navigate = useNavigate();
 
   return (
     <div>
-      <Navbar />
+      <Header />
       <div className="about-wrapper">
         <div className="about-left">
           <img src="/cricketabout.webp" alt="Cricket" className="img-cricket" />

@@ -1,12 +1,12 @@
 import React from 'react';
 import './Tennis.css';
-import Navbar from './Navbar';
 import Footer from './Footer';
+import Header from './Header';
 
 // Main App component
 const App = () => (
   <>
-    <Navbar />
+    <Header />
     <div className="app-container">
       <h1 className="page-title">TENNIS PRODUCTS</h1>
 

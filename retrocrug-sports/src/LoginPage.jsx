@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import './LoginPage.css';
 import axios from 'axios';
+import { AuthContext } from './AuthContext.jsx';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -40,6 +42,7 @@ const LoginPage = () => {
       // Assuming response contains a token or user data on success
       if (response.status === 200) {
         // Save token or user info if needed, e.g. localStorage.setItem('token', response.data.token);
+        login(response.data.user || { email }); // Set user in auth context
         navigate('/'); // Navigate to homepage after successful login
       } else {
         setError('Login failed. Please check your credentials.');

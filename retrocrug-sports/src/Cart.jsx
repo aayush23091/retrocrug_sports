@@ -1,8 +1,7 @@
-// src/CartPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';  // import useNavigate
 import './Cart.css';
-import Navbar from './Navbar';
+import Header from './Header';
 import Footer from './Footer';
 
 const CartPage = () => {
@@ -42,7 +41,7 @@ const CartPage = () => {
 
   return (
     <div>
-      <Navbar />
+      <Header />
       <div className="cart-container">
         <div className="cart-table">
           <div className="cart-header">

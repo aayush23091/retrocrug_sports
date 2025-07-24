@@ -1,13 +1,13 @@
 import React from 'react';
 import './Football.css';
-import Navbar from './Navbar';
 import Footer from './Footer';
+import Header from './Header';
 
 // Main App component
 const App = () => {
     return (
         <>
-            <Navbar />
+            <Header />
             <div className="app-container">
                 <h1 className="page-title">FOOTBALL PRODUCTS</h1>
                 <div className="products-grid-container">

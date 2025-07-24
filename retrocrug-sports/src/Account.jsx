@@ -1,12 +1,12 @@
 import React from 'react';
 import './Account.css';
-import Navbar from './Navbar';
+import Header from './Header';
 import Footer from './Footer';
 
 const ProfileEdit = () => {
   return (
     <div>
-        <Navbar />
+        <Header />
     <div className="profile-container">
       <div className="profile-left">
         <img

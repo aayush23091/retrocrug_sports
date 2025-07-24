@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 // import { Phone, Mail, MapPin, Send } from 'lucide-react';
 import './Contact.css'; 
-import Navbar from './Navbar';
 import Footer from './Footer';
+import Header from './Header';
 
 export default function ContactUs() {
   return (
     <div>
-        <Navbar />
+        <Header />
     <div className="contact-container">
       <h1 className="contact-title">Contact Us</h1>
       <p className="contact-subtitle">Any question or remarks? Just write us a message!</p>

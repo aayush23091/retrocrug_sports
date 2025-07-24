@@ -15,26 +15,31 @@ import Football from './Football';
 import Rugby from './Rugby';
 import Tennis from './Tennis';
 import NotFound from './NotFound';
+import Header from './Header';
+import { AuthProvider } from './AuthContext';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/loginPage" element={<LoginPage />} />
-        <Route path="/*" element={<NotFound />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/Contact" element={<Contact />} />
-        <Route path="/About" element={<About />} />
-        <Route path="/Account" element={<Account />} />
-        <Route path="/Cart" element={<Cart />} />
-        <Route path="/Product" element={<Product />} />
-        <Route path="/Cricket" element={<Cricket />} />
-        <Route path="/Football" element={<Football />} />
-         <Route path="/Rugby" element={<Rugby />} />
-         <Route path="/Tennis" element={<Tennis />} />
-      </Routes>
+      <AuthProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/loginPage" element={<LoginPage />} />
+          <Route path="/*" element={<NotFound />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/Account" element={<Account />} />
+          <Route path="/Cart" element={<Cart />} />
+          <Route path="/Product" element={<Product />} />
+          <Route path="/Cricket" element={<Cricket />} />
+          <Route path="/Football" element={<Football />} />
+          <Route path="/Rugby" element={<Rugby />} />
+          <Route path="/Tennis" element={<Tennis />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

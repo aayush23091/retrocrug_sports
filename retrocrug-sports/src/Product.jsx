@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Product.css';
-import Navbar from './Navbar';
 import Footer from './Footer';
+import Header from './Header';
 
 const App = () => {
     return (
         <>
-            <Navbar />
+            <Header/>
             <div className="app-container">
                 <h1 className="page-title">EXPLORE PRODUCTS BY SPORTS</h1>
 
