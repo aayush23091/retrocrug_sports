@@ -72,7 +72,6 @@ const CartPage = () => {
           ))}
           <div className="cart-buttons">
             <button className="btn-outline" onClick={handleReturnToShop}>Return To Shop</button>
-            <button className="btn-outline">Update Cart</button>
           </div>
         </div>
 
