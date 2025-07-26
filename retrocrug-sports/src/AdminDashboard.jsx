@@ -1,6 +1,58 @@
 import React, { useState } from 'react';
 import './AdminDashboard.css';
 
+export const Sidebar = ({ sidebarCollapsed, toggleSidebar, activeMenu, handleMenuClick }) => {
+  const menuItems = [
+    { id: 'Dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard' },
+    { id: 'Order', icon: 'fa-shopping-cart', label: 'Order' },
+    { id: 'Customers', icon: 'fa-user-friends', label: 'Customers' },
+    { id: 'Product', icon: 'fa-box', label: 'Product' }
+  ];
+
+  return (
+    <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+      <div className="sidebar-header">
+        <h3>Admin Panel</h3>
+        <button className="toggle-btn" onClick={toggleSidebar}>
+          <i className={`fas fa-${sidebarCollapsed ? 'chevron-right' : 'chevron-left'}`}></i>
+        </button>
+      </div>
+      
+      <div className="sidebar-menu">
+        {menuItems.map((item) => (
+          <div 
+            key={item.id}
+            className={`menu-item ${activeMenu === item.id ? 'active' : ''}`}
+            onClick={() => handleMenuClick(item.id)}
+          >
+            <i className={`fas ${item.icon}`}></i>
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export const Topbar = () => {
+  return (
+    <div className="top-bar">
+      <div className="user-dropdown" style={{ marginLeft: 'auto' }}>
+        <button className="dropdown-btn">
+          <div className="user-avatar">
+            <i className="fas fa-user"></i>
+          </div>
+          <span>Admin User</span>
+          <i className="fas fa-chevron-down"></i>
+        </button>
+        <div className="dropdown-content">
+          <a href="#"><i className="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const AdminDashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeMenu, setActiveMenu] = useState('Dashboard');
@@ -13,60 +65,16 @@ const AdminDashboard = () => {
     setActiveMenu(menuItem);
   };
 
-  const menuItems = [
-    { id: 'Dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard' },
-    { id: 'Order', icon: 'fa-shopping-cart', label: 'Order' },
-    { id: 'Customers', icon: 'fa-user-friends', label: 'Customers' },
-    { id: 'Product', icon: 'fa-box', label: 'Product' }
-  ];
-
   return (
     <div className="dashboard">
-      {/* Sidebar */}
-      <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
-        <div className="sidebar-header">
-          <h3>Admin Panel</h3>
-          <button className="toggle-btn" onClick={toggleSidebar}>
-            <i className={`fas fa-${sidebarCollapsed ? 'chevron-right' : 'chevron-left'}`}></i>
-          </button>
-        </div>
-        
-        <div className="sidebar-menu">
-          {menuItems.map((item) => (
-            <div 
-              key={item.id}
-              className={`menu-item ${activeMenu === item.id ? 'active' : ''}`}
-              onClick={() => handleMenuClick(item.id)}
-            >
-              <i className={`fas ${item.icon}`}></i>
-              <span>{item.label}</span>
-            </div>
-          ))}
-        </div>
-        
-        {/* Removed user-section from sidebar as per request */}
-      </div>
-      
-      {/* Main Content */}
+      <Sidebar 
+        sidebarCollapsed={sidebarCollapsed} 
+        toggleSidebar={toggleSidebar} 
+        activeMenu={activeMenu} 
+        handleMenuClick={handleMenuClick} 
+      />
       <div className={`main-content ${sidebarCollapsed ? 'expanded' : ''}`}>
-        <div className="top-bar">
-          {/* Removed search-bar from top-bar as per request */}
-          
-          {/* Moved Admin user dropdown to end of top-bar and simplified dropdown */}
-          <div className="user-dropdown" style={{ marginLeft: 'auto' }}>
-            <button className="dropdown-btn">
-              <div className="user-avatar">
-                <i className="fas fa-user"></i>
-              </div>
-              <span>Admin User</span>
-              <i className="fas fa-chevron-down"></i>
-            </button>
-            <div className="dropdown-content">
-              <a href="#"><i className="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
-          </div>
-        </div>
-        
+        <Topbar />
         {/* Stats Cards */}
         <div className="stats-container">
           <div className="stat-card">
