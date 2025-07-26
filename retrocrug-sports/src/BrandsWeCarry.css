@@ -78,8 +78,8 @@ background: linear-gradient(135deg, #581c87 0%, #7c3aed 50%, #3730a3 100%);
 }
 
 .features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  justify-content: space-between;
   gap: 40px;
   margin-top: 60px;
 }

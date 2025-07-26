@@ -90,6 +90,13 @@ const Homepage = () => {
       price: 'RS.1,950',
       image: '/rugby.png',
       alt: 'Rugby Ball'
+    },
+     {
+      id: 4,
+      name: 'Wilson Racket',
+      price: 'RS.6,950',
+      image: '/rugby.png',
+      alt: 'racket'
     }
   ];
 
