@@ -16,6 +16,8 @@ import Rugby from './Rugby';
 import Tennis from './Tennis';
 import NotFound from './NotFound';
 import Header from './Header';
+
+
 import { AuthProvider } from './AuthContext';
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
           <Route path="/Football" element={<Football />} />
           <Route path="/Rugby" element={<Rugby />} />
           <Route path="/Tennis" element={<Tennis />} />
+          
         </Routes>
       </AuthProvider>
     </Router>
