@@ -1,24 +1,22 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './LoginPage';
-import SignUpPage from './SignUpPage'; 
-import Homepage from './Homepage';
-import Dashboard from './Dashboard';
-import Contact from './Contact';
-import About from './About';
-import Account from './Account';
-import Cart from './Cart';
-import Product from './Product';
-import Cricket from './Cricket';
-import Football from './Football';
-import Rugby from './Rugby';
-import Tennis from './Tennis';
-import NotFound from './NotFound';
-import Header from './Header';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage'; 
+import Homepage from './pages/Homepage';
+import Dashboard from './pages/Dashboard';
+import Contact from './pages/Contact';
+import About from './pages/About';
+import Account from './pages/Account';
+import Cart from './pages/Cart';
+import Product from './pages/Product';
+import Cricket from './pages/Cricket';
+import Football from './pages/Football';
+import Rugby from './pages/Rugby';
+import Tennis from './pages/Tennis';
+import NotFound from './pages/NotFound';
+import Header from './components/Header';
 
-
-import { AuthProvider } from './AuthContext';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
@@ -40,7 +38,6 @@ function App() {
           <Route path="/Football" element={<Football />} />
           <Route path="/Rugby" element={<Rugby />} />
           <Route path="/Tennis" element={<Tennis />} />
-          
         </Routes>
       </AuthProvider>
     </Router>

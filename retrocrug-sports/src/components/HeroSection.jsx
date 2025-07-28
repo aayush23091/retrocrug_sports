@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HeroSection.css';
+import '../style/HeroSection.css';
 
 const SportsHomepage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);

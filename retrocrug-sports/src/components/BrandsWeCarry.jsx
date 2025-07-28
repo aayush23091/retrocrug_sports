@@ -1,6 +1,6 @@
 import React from 'react';
 import { Truck, Headphones, Shield } from 'lucide-react';
-import './BrandsWeCarry.css'; // Import external CSS
+import '../style/BrandsWeCarry.css'; // Import external CSS
 
 const BrandsSection = () => {
   // Brand logos data - Replace these paths with your actual image paths

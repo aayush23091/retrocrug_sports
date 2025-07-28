@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './AddCustomer.css';
-import { Sidebar, Topbar } from './AdminDashboard';
+import '../style/AddCustomer.css';
+import { Sidebar, Topbar } from '../AdminDashboard';
 
 const AddCustomer = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);

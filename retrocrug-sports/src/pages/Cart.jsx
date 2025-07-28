@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';  // import useNavigate
-import './Cart.css';
-import Header from './Header';
-import Footer from './Footer';
+import '../style/Cart.css';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const CartPage = () => {
   const navigate = useNavigate();  // initialize navigate

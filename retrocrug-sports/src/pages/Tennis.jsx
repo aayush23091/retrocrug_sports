@@ -1,7 +1,7 @@
 import React from 'react';
-import './Tennis.css';
-import Footer from './Footer';
-import Header from './Header';
+import '../style/Tennis.css';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 // Main App component
 const App = () => (

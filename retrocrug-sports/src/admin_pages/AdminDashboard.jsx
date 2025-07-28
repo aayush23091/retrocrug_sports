@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AdminDashboard.css';
+import '../style/AdminDashboard.css';
 
 export const Sidebar = ({ sidebarCollapsed, toggleSidebar, activeMenu, handleMenuClick }) => {
   const menuItems = [

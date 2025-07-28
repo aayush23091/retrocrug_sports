@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 // import { Phone, Mail, MapPin, Send } from 'lucide-react';
-import './Contact.css'; 
-import Footer from './Footer';
-import Header from './Header';
+import '../style/Contact.css'; 
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 export default function ContactUs() {
   return (

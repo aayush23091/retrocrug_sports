@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
-import NewArrivals from './NewArrivals';
-import HeroSection from './HeroSection';
-import BestSellers from './BestSellers';
-import BrandsWeCarry from './BrandsWeCarry';
+import Footer from '../components/Footer';
+import NewArrivals from '../components/NewArrivals';
+import HeroSection from '../components/HeroSection';
+import BestSellers from '../components/BestSellers';
+import BrandsWeCarry from '../components/BrandsWeCarry';
+import Header from '../components/Header';
 
 
 const HomePage = () => {

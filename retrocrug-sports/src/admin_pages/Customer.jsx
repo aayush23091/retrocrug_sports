@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Customer.css';
+import '../style/Customer.css';
 import { Sidebar, Topbar } from './AdminDashboard';
 
 const Customer = () => {

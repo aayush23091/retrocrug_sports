@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './NotFound.css';
+import '../style/NotFound.css';
 
 const NotFoundPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -61,4 +61,4 @@ const NotFoundPage = () => {
   );
 };
 
-export default NotFoundPage
+export default NotFoundPage;

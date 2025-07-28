@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Product.css';
-import Footer from './Footer';
-import Header from './Header';
+import '../style/Product.css';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 const App = () => {
     return (

@@ -3,8 +3,8 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { User, LogOut, ShoppingCart } from "lucide-react";
-import "./Header.css";
-import { AuthContext } from "./AuthContext";
+import "../style/Header.css";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext);

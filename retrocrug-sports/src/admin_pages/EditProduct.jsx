@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './AddProduct.css';
+import '../style/EditProduct.css';
 import { Sidebar, Topbar } from './AdminDashboard';
 
-const AddProduct = () => {
+const EditProduct = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeMenu, setActiveMenu] = useState('Product');
 
@@ -24,8 +24,8 @@ const AddProduct = () => {
       />
       <div className={`main-content ${sidebarCollapsed ? 'expanded' : ''}`}>
         <Topbar />
-        {/* Add Product Form */}
-        <div className="add-product-container">
+        {/* Edit Product Form */}
+        <div className="edit-product-container">
           <h2>Product</h2>
           <div className="form-container">
             <div className="product-info">
@@ -74,12 +74,17 @@ const AddProduct = () => {
               <h3>Image Product</h3>
               <p><span style={{color: 'red'}}>Note</span>: Format photos SVG, PNG, or JPG (Max size 4mb)</p>
               <div className="image-upload-container">
-                <div className="image-upload-box">Photo 1</div>
+                <div className="image-upload-box">
+                  <img src="https://via.placeholder.com/80" alt="Product" />
+                </div>
                 <div className="image-upload-box">Photo 2</div>
                 <div className="image-upload-box">Photo 3</div>
                 <div className="image-upload-box">Photo 4</div>
               </div>
-              <button className="save-product-btn">Save Product</button>
+              <div className="buttons-container">
+                <button className="discard-btn">Discard Changes</button>
+                <button className="save-btn">Save Changes</button>
+              </div>
             </div>
           </div>
         </div>
@@ -88,4 +93,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

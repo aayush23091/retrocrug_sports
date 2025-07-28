@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
-import './LoginPage.css';
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
+import '../style/LoginPage.css';
 import axios from 'axios';
-import { AuthContext } from './AuthContext.jsx';
+import { AuthContext } from '../context/AuthContext.jsx';
 
 const LoginPage = () => {
   const navigate = useNavigate();

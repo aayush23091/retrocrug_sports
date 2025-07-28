@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AdminOrder.css'; 
+import '../style/AdminOrder.css'; 
 
 const AdminOrder = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
