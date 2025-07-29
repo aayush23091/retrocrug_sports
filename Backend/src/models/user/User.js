@@ -18,5 +18,9 @@ export const User=sequelize.define("User",{
       },
       password:{
         type:DataTypes.STRING
+      },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       }
 })

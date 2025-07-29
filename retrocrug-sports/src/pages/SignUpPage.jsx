@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../style/SignUpPage.css';
@@ -196,7 +198,7 @@ const SignUpPage = () => {
               </div>
               <p className="signup-text">
                 Already have an account?{" "}
-                <Link to="/LoginPage">
+                <Link to="/loginPage">
                   <u>Log in</u>
                 </Link>
               </p>

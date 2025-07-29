@@ -2,7 +2,7 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #2f1e84;
+  background-color: #242424 !important;
   color: #fff;
   min-height: 100vh;
 }

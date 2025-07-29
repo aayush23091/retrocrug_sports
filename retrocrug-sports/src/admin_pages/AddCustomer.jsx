@@ -1,28 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../style/AddCustomer.css';
-import { Sidebar, Topbar } from '../AdminDashboard';
+import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 
 const AddCustomer = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('Customers');
-
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
-
-  const handleMenuClick = (menuItem) => {
-    setActiveMenu(menuItem);
-  };
-
   return (
     <div className="dashboard">
-      <Sidebar 
-        sidebarCollapsed={sidebarCollapsed} 
-        toggleSidebar={toggleSidebar} 
-        activeMenu={activeMenu} 
-        handleMenuClick={handleMenuClick} 
-      />
-      <div className={`main-content ${sidebarCollapsed ? 'expanded' : ''}`}>
+      <Sidebar />
+      <div className="main-content">
         <Topbar />
         <div className="add-customer-container">
           <h2>Customer</h2>

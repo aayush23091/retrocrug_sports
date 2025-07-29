@@ -36,7 +36,7 @@ const CartPage = () => {
 
   // handler for return to shop button
   const handleReturnToShop = () => {
-    navigate('/Dashboard');
+    navigate('/dashboard');
   };
 
   return (

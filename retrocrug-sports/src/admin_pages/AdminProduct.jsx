@@ -1,29 +1,14 @@
 import React, { useState } from 'react';
 import '../style/AdminProduct.css';
+import Sidebar from './Sidebar';
+// Removed Topbar import as per request
 
 const AdminProduct = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('Product');
   const [activeTab, setActiveTab] = useState('Cricket');
-
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
-
-  const handleMenuClick = (menuItem) => {
-    setActiveMenu(menuItem);
-  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-
-  const menuItems = [
-    { id: 'Dashboard', icon: 'fa-tachometer-alt', label: 'Dashboard' },
-    { id: 'Order', icon: 'fa-shopping-cart', label: 'Order' },
-    { id: 'Customers', icon: 'fa-user-friends', label: 'Customers' },
-    { id: 'Product', icon: 'fa-box', label: 'Product' }
-  ];
 
   const products = [
     {
@@ -66,47 +51,9 @@ const AdminProduct = () => {
 
   return (
     <div className="dashboard">
-      {/* Sidebar */}
-      <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
-        <div className="sidebar-header">
-          <h3>Admin Panel</h3>
-          <button className="toggle-btn" onClick={toggleSidebar}>
-            <i className={`fas fa-${sidebarCollapsed ? 'chevron-right' : 'chevron-left'}`}></i>
-          </button>
-        </div>
-
-        <div className="sidebar-menu">
-          {menuItems.map((item) => (
-            <div
-              key={item.id}
-              className={`menu-item ${activeMenu === item.id ? 'active' : ''}`}
-              onClick={() => handleMenuClick(item.id)}
-            >
-              <i className={`fas ${item.icon}`}></i>
-              <span>{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className={`main-content ${sidebarCollapsed ? 'expanded' : ''}`}>
-        {/* Top Bar */}
-        <div className="top-bar">
-          <div className="user-dropdown" style={{ marginLeft: 'auto' }}>
-            <button className="dropdown-btn">
-              <div className="user-avatar">
-                <i className="fas fa-user"></i>
-              </div>
-              <span>Admin User</span>
-              <i className="fas fa-chevron-down"></i>
-            </button>
-            <div className="dropdown-content">
-              <a href="#"><i className="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
-          </div>
-        </div>
-
+      <Sidebar />
+      <div className="main-content">
+        {/* Removed individual Topbar instance as per request */}
         {/* Product Section */}
         <div className="product-section">
           <h2>Product</h2>

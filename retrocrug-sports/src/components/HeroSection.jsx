@@ -60,7 +60,7 @@ const SportsHomepage = () => {
                 <p className="hero-description">
                   {slide.description}
                 </p>
-                <button className="hero-button" onClick={() => navigate('/Product')}>
+                <button className="hero-button" onClick={() => navigate('/product')}>
                   EXPLORE PRODUCTS
                 </button>
               </div>

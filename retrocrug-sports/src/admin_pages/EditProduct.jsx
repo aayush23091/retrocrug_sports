@@ -1,32 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../style/EditProduct.css';
-import { Sidebar, Topbar } from './AdminDashboard';
+import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 
 const EditProduct = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('Product');
-
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
-
-  const handleMenuClick = (menuItem) => {
-    setActiveMenu(menuItem);
-  };
-
   return (
     <div className="dashboard">
-      <Sidebar 
-        sidebarCollapsed={sidebarCollapsed} 
-        toggleSidebar={toggleSidebar} 
-        activeMenu={activeMenu} 
-        handleMenuClick={handleMenuClick} 
-      />
-      <div className={`main-content ${sidebarCollapsed ? 'expanded' : ''}`}>
+      <Sidebar />
+      <div className="main-content">
         <Topbar />
         {/* Edit Product Form */}
         <div className="edit-product-container">
-          <h2>Product</h2>
+          <h2>Edit Product</h2>
           <div className="form-container">
             <div className="product-info">
               <h3>Product Information</h3>
@@ -74,17 +59,12 @@ const EditProduct = () => {
               <h3>Image Product</h3>
               <p><span style={{color: 'red'}}>Note</span>: Format photos SVG, PNG, or JPG (Max size 4mb)</p>
               <div className="image-upload-container">
-                <div className="image-upload-box">
-                  <img src="https://via.placeholder.com/80" alt="Product" />
-                </div>
+                <div className="image-upload-box">Photo 1</div>
                 <div className="image-upload-box">Photo 2</div>
                 <div className="image-upload-box">Photo 3</div>
                 <div className="image-upload-box">Photo 4</div>
               </div>
-              <div className="buttons-container">
-                <button className="discard-btn">Discard Changes</button>
-                <button className="save-btn">Save Changes</button>
-              </div>
+              <button className="save-product-btn">Save Product</button>
             </div>
           </div>
         </div>

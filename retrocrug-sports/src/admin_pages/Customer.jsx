@@ -1,80 +1,71 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../style/Customer.css';
-import { Sidebar, Topbar } from './AdminDashboard';
+import Sidebar from './Sidebar';
 
 const Customer = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('Customers');
-
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
-
-  const handleMenuClick = (menuItem) => {
-    setActiveMenu(menuItem);
-  };
-
   const customers = [
     {
       id: '12452',
       name: 'ayush hal shrestha',
-      contact: 'ayush@examp.com +9779876543210',
+      email: 'ayush@examp.com',
+      phone: '+9779876543210',
       address: '44800 jagati.bhaktapur'
     },
     {
       id: '12451',
       name: 'hanish shrestha',
-      contact: 'hanish@examp.com +9779812345678',
+      email: 'hanish@examp.com',
+      phone: '+9779812345678',
       address: '44600 sallaghari.kathmandu'
     },
     {
       id: '12453',
       name: 'krish khatri',
-      contact: 'krish@examp.com +9779805643219',
+      email: 'krish@examp.com',
+      phone: '+9779805643219',
       address: '44811 thimi.bhaktapur'
     },
     {
-      id: '12453',
+      id: '12454',
       name: 'aishworya tamang',
-      contact: 'tamang@examp.com +977987678787',
+      email: 'tamang@examp.com',
+      phone: '+977987678787',
       address: '33700 jagati.pokhara'
     },
     {
-      id: '12452',
+      id: '12455',
       name: 'sadikshya gurung',
-      contact: 'sadik@examp.com +9779008776687',
+      email: 'sadik@examp.com',
+      phone: '+9779008776687',
       address: 'jagati.pokharatucky 39495'
     },
     {
-      id: '12451',
+      id: '12456',
       name: 'Leslie pradhan',
-      contact: 'leslie@examp.com +9779865456778',
+      email: 'leslie@examp.com',
+      phone: '+9779865456778',
       address: '33700 jagati.pokhara'
     },
     {
       id: '12345',
       name: 'Kristin joshi',
-      contact: 'kristin@examp.com +977988877667',
+      email: 'kristin@examp.com',
+      phone: '+977988877667',
       address: '44600 darbarmarg.kathmandu'
     },
     {
-      id: '12451',
+      id: '12457',
       name: 'bishwo maharjan',
-      contact: 'bishwo@examp.com +9779565647890',
+      email: 'bishwo@examp.com',
+      phone: '+9779565647890',
       address: '44600 baneshwor.kathmandu'
     }
   ];
 
   return (
     <div className="dashboard">
-      <Sidebar 
-        sidebarCollapsed={sidebarCollapsed} 
-        toggleSidebar={toggleSidebar} 
-        activeMenu={activeMenu} 
-        handleMenuClick={handleMenuClick} 
-      />
-      <div className={`main-content ${sidebarCollapsed ? 'expanded' : ''}`}>
-        <Topbar />
+      <Sidebar />
+      <div className="main-content">
         <div className="customer-section">
           <h2>Customer</h2>
           <div className="search-bar-container">
@@ -91,14 +82,15 @@ const Customer = () => {
               <tr>
                 <th><input type="checkbox" /></th>
                 <th>Name Customer</th>
-                <th>Contact</th>
+                <th>Contact Email</th>
+                <th>Contact Phone</th>
                 <th>Address</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {customers.map((customer, index) => (
-                <tr key={index}>
+              {customers.map((customer) => (
+                <tr key={customer.id}>
                   <td><input type="checkbox" /></td>
                   <td>
                     <div className="customer-name-id">
@@ -108,7 +100,8 @@ const Customer = () => {
                       <div>{customer.name}</div>
                     </div>
                   </td>
-                  <td>{customer.contact}</td>
+                  <td>{customer.email}</td>
+                  <td>{customer.phone}</td>
                   <td>{customer.address}</td>
                   <td className="action-buttons">
                     <button title="View"><i className="fas fa-eye"></i></button>

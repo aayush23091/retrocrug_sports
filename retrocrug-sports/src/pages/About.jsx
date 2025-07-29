@@ -35,7 +35,7 @@ export default function About() {
             At RetroCrug Sports, we believe in the spirit of the game and are committed to supporting your journey
             with top-notch products and exceptional service. Play harder, train smarter — only with RetroCrug Sports.
           </p>
-          <button className="explore-btn" onClick={() => navigate('/Dashboard')}>
+          <button className="explore-btn" onClick={() => navigate('/dashboard')}>
             EXPLORE MORE
           </button>
         </div>

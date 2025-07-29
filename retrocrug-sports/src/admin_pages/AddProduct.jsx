@@ -1,28 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../style/AddProduct.css';
-import { Sidebar, Topbar } from '../AdminDashboard';
+import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 
 const AddProduct = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('Product');
-
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
-
-  const handleMenuClick = (menuItem) => {
-    setActiveMenu(menuItem);
-  };
-
   return (
     <div className="dashboard">
-      <Sidebar 
-        sidebarCollapsed={sidebarCollapsed} 
-        toggleSidebar={toggleSidebar} 
-        activeMenu={activeMenu} 
-        handleMenuClick={handleMenuClick} 
-      />
-      <div className={`main-content ${sidebarCollapsed ? 'expanded' : ''}`}>
+      <Sidebar />
+      <div className="main-content">
         <Topbar />
         {/* Add Product Form */}
         <div className="add-product-container">
