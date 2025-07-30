@@ -1,3 +1,4 @@
+
 // import React from 'react';
 // import '../style/AddProduct.css';
 // import Sidebar from './Sidebar';
@@ -80,14 +81,14 @@
 import React from 'react';
 import '../style/AddProduct.css';
 import Sidebar from './Sidebar';
-import Topbar from './Topbar';
+// import Topbar from './Topbar'; // No need to import Topbar here
 
 const AddProduct = () => {
   return (
     <div className="dashboard">
       <Sidebar />
       <div className="main-content">
-        <Topbar />
+        {/* Topbar removed from here */}
         {/* Add Product Form */}
         <div className="add-product-container">
           <h2>Product</h2>

@@ -1,45 +1,42 @@
 import React from 'react';
 import '../style/AddCustomer.css';
 import Sidebar from './Sidebar';
-import Topbar from './Topbar';
+// import Topbar from './Topbar'; // No need to import Topbar here
 
 const AddCustomer = () => {
   return (
     <div className="dashboard">
       <Sidebar />
       <div className="main-content">
-        <Topbar />
+        {/* Topbar removed from here */}
+        {/* Add Customer Form */}
         <div className="add-customer-container">
           <h2>Customer</h2>
-          <form className="customer-form">
-            <div className="form-group">
-              <label>Name Customer</label>
-              <input type="text" placeholder="Input name" />
-            </div>
-            <div className="form-group">
-              <label>Email</label>
-              <input type="email" placeholder="Input email" />
-            </div>
-            <div className="form-group">
-              <label>Contact</label>
-              <input type="text" placeholder="Contact" />
-            </div>
-            <div className="form-row">
-              <div className="form-group half">
+          <div className="form-container">
+            <label>Name Customer</label>
+            <input type="text" placeholder="Input name" />
+            <label>Email</label>
+            <input type="email" placeholder="Input email" />
+            <label>Contact</label>
+            <input type="text" placeholder="Contact" />
+            <div className="row">
+              <div className="col">
                 <label>Membership status</label>
-                <input type="text" placeholder="Total Purchases" />
+                <select>
+                  <option>Select status</option>
+                  <option>Active</option>
+                  <option>Inactive</option>
+                </select>
               </div>
-              <div className="form-group half">
+              <div className="col">
                 <label>Postal code</label>
-                <input type="text" placeholder="Order Quantity" />
+                <input type="text" placeholder="Postal code" />
               </div>
             </div>
-            <div className="form-group">
-              <label>Address</label>
-              <textarea placeholder="Input address"></textarea>
-            </div>
-            <button type="submit" className="save-customer-btn">Save Customer</button>
-          </form>
+            <label>Address</label>
+            <input type="text" placeholder="Input address" />
+            <button className="save-customer-btn">Save Customer</button>
+          </div>
         </div>
       </div>
     </div>
