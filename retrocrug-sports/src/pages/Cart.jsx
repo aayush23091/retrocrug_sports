@@ -105,7 +105,7 @@ const CartPage = () => {
             <span>Total:</span>
             <span>₹{getTotal()}</span>
           </div>
-          <button className="btn-primary">Proceed to checkout</button>
+          <button className="btn-primary" onClick={() => navigate('/checkout')}>Proceed to checkout</button>
         </div>
       </div>
       <Footer />

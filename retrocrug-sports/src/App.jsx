@@ -54,6 +54,7 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import Account from './pages/Account';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import Product from './pages/Product';
 import ProductDetail from './pages/ProductDetail';
 import Cricket from './pages/Cricket';
@@ -94,6 +95,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/account" element={<Account />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/product" element={<Product />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cricket" element={<Cricket />} />
