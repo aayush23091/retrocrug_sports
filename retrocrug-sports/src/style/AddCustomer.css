@@ -250,6 +250,21 @@ body {
   background-color: var(--secondary);
 }
 
+.save-customer-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #f5c6cb;
+}
+
 /* Responsive Styles */
 @media (max-width: 992px) {
   .sidebar {

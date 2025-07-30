@@ -312,6 +312,24 @@ body {
   color: var(--secondary);
 }
 
+/* Error message styling */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #f5c6cb;
+}
+
+/* Loading state styling */
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: var(--primary);
+  font-weight: 500;
+}
+
 /* Responsive Styles */
 @media (max-width: 992px) {
   .sidebar {
