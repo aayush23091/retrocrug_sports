@@ -1,4 +1,68 @@
 
+// import express from "express";
+// import bodyParser from "body-parser";
+// import cors from "cors"; // <-- import CORS
+// import { db } from "./database/index.js";
+// import { userRouter, authRouter, productRouter } from "./route/index.js";
+// import dotenv from "dotenv";
+// import { authenticateToken } from "./middleware/token-middleware.js";
+// import router from "./route/uploadRoutes.js";
+// import { createUploadsFolder } from "./security/helper.js";
+// import { createAdminUser } from "./seeders/createAdminUser.js";
+
+// dotenv.config();
+
+// const app = express();
+// app.use('/uploads', express.static('uploads'));
+
+// // Add logging for app startup
+// console.log("Express app initialized");
+
+// // Add logging for all requests
+// app.use((req, res, next) => {
+//   console.log(`Received ${req.method} request for ${req.url}`);
+//   console.log("Request headers:", req.headers);
+//   console.log("Request body:", req.body);
+//   next();
+// });
+
+// // Add error handling middleware
+// app.use((err, req, res, next) => {
+//   console.error("Unhandled error:", err);
+//   res.status(500).send({ error: "Internal server error" });
+// });
+
+// const port = process.env.PORT || 5000;
+
+// // ✅ Enable CORS
+// app.use(cors());
+
+// // Parse JSON
+// app.use(bodyParser.json());
+
+// // Public routes
+// app.use("/api/auth", authRouter);
+
+// // Protect routes below
+// app.use(authenticateToken);
+// app.use("/api/users", userRouter);
+// app.use("/api/file", router);
+// app.use("/api/product", productRouter);
+
+// // Create uploads folder
+// createUploadsFolder();
+
+// // Create default admin user on server start
+// createAdminUser();
+
+// // Start server
+// app.listen(port, function () {
+//   console.log(`Project running on port ${port}`);
+//   db();
+// });
+
+
+
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors"; // <-- import CORS
@@ -23,12 +87,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Public routes
-app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/product", productRouter);
+app.use("/api/product", productRouter); // Make product routes public
 
 // Protect routes below
 app.use(authenticateToken);
+app.use("/api/users", userRouter);
 app.use("/api/file", router);
 
 // Create uploads folder
@@ -42,5 +106,4 @@ app.listen(port, function () {
   console.log(`Project running on port ${port}`);
   db();
 });
-
 

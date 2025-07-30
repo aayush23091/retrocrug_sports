@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [token, setToken] = useState(() => localStorage.getItem('token') || null);
+  const [token, setToken] = useState(() => localStorage.getItem('access_token') || null);
 
   useEffect(() => {
     if (user) {
@@ -55,9 +55,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem('token', token);
+      localStorage.setItem('access_token', token);
     } else {
-      localStorage.removeItem('token');
+      localStorage.removeItem('access_token');
     }
   }, [token]);
 
@@ -66,14 +66,14 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
     setToken(token);
     localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('token', token);
+    localStorage.setItem('access_token', token);
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
     localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
   };
 
   return (

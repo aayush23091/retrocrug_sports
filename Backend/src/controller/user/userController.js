@@ -206,6 +206,89 @@ const updateCartQuantity = async (req, res) => {
     }
 };
 
+/**
+ * Update current user's profile
+ */
+const updateProfile = async (req, res) => {
+    try {
+        console.log("updateProfile called");
+        console.log("Request body:", req.body);
+        console.log("Request user:", req.user);
+        
+        // Get user ID from the authenticated token
+        const userId = req.user?.user?.id;
+        console.log("User ID:", userId);
+        
+        if (!userId) {
+            console.log("User not authenticated");
+            return res.status(401).send({ message: "Not authenticated" });
+        }
+
+        const { firstName, lastName, currentPassword, newPassword } = req.body;
+        
+        // Fetch the current user
+        console.log("Fetching user with ID:", userId);
+        const user = await User.findOne({ where: { id: userId } });
+        console.log("User found:", user);
+        
+        if (!user) {
+            console.log("User not found in database");
+            return res.status(404).send({ message: "User not found" });
+        }
+
+        // If password change is requested, verify current password
+        if (newPassword || currentPassword) {
+            console.log("Password change requested");
+            // Both currentPassword and newPassword must be provided
+            if (!currentPassword) {
+                console.log("Current password is missing");
+                return res.status(400).send({ message: "Current password is required to change password" });
+            }
+            
+            if (!newPassword) {
+                console.log("New password is missing");
+                return res.status(400).send({ message: "New password is required" });
+            }
+            
+            // Verify current password
+            console.log("Verifying current password");
+            if (user.password !== currentPassword) {
+                console.log("Current password is incorrect");
+                return res.status(401).send({ message: "Current password is incorrect" });
+            }
+            
+            // Update password
+            console.log("Updating password");
+            user.password = newPassword;
+        }
+
+        // Update name by combining first and last name
+        if (firstName || lastName) {
+            console.log("Updating name");
+            user.name = `${firstName || ''} ${lastName || ''}`.trim();
+        }
+
+        // Save the updated user
+        console.log("Saving user");
+        await user.save();
+        console.log("User saved successfully");
+
+        // Return updated user data (excluding password)
+        console.log("Preparing response");
+        const userData = user.toJSON();
+        delete userData.password;
+
+        res.status(200).send({ 
+            data: userData, 
+            message: "Profile updated successfully" 
+        });
+    } catch (e) {
+        console.error("Update Profile Error:", e);
+        console.error("Error stack:", e.stack);
+        res.status(500).send({ error: "Failed to update profile" });
+    }
+};
+
 export const userController = {
     getAll,
     create,
@@ -215,5 +298,6 @@ export const userController = {
     addToCart,
     getCart,
     removeFromCart,
-    updateCartQuantity
+    updateCartQuantity,
+    updateProfile
 }
