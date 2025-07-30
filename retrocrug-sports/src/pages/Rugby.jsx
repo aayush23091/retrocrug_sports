@@ -1,111 +1,43 @@
 import React from 'react';
-import '../style/Rugby.css';
-import Footer from '../components/Footer';
+import { useProducts } from '../context/ProductContext';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
+import '../style/ProductCard.css';
 
-// Main App component
-const App = () => (
-  <>
-    <Header />
-    <div className="app-container">
-      <h1 className="page-title">RUGBY PRODUCTS</h1>
+const backendUrl = "http://localhost:5000";
 
-      <div className="products-grid-container">
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/71hWYspA0ZL._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Rugby Ball"
-          productName="Gilbert Sirius Match Ball"
-          price="₹ 3,499"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/71m5DqPQXlL._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Rugby Boots"
-          productName="Canterbury Phoenix Raze SG Boots"
-          price="₹ 4,299"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/61lTqpPpHOL._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Shoulder Pads"
-          productName="Optimum Tribal Shoulder Pads"
-          price="₹ 2,250"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/61JRE1dgo-L._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Headgear"
-          productName="Canterbury Ventilator Headguard"
-          price="₹ 1,799"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/71V0ZZjryDL._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Mouthguard"
-          productName="Shock Doctor Gel Max Mouthguard"
-          price="₹ 699"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/71ThSLwCNiL._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Rugby Jersey"
-          productName="All Blacks Replica Jersey"
-          price="₹ 2,999"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/61IJ-Y5We7L._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Rugby Shorts"
-          productName="Gilbert Kiwi Pro Shorts"
-          price="₹ 1,099"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/81k0G4VovhL._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Rugby Socks"
-          productName="Canterbury Team Socks"
-          price="₹ 399"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/61lnmSyPRBL._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Kicking Tee"
-          productName="Gilbert Falcon 200 Kicking Tee"
-          price="₹ 550"
-        />
-        <ProductCard
-          imageUrl="https://m.media-amazon.com/images/I/71pvVN-3kEL._AC_UL600_FMwebp_QL65_.jpg"
-          altText="Training Cones"
-          productName="Set of 20 Optimum Marker Cones"
-          price="₹ 799"
-        />
-      </div>
-    </div>
-    <Footer />
-  </>
-);
-
-// ProductCard component
-const ProductCard = ({ imageUrl, altText, productName, price }) => {
-  const handleAddToCart = () => {
-    console.log(`Added "${productName}" (${price}) to cart!`);
-  };
+const Rugby = () => {
+  const { products } = useProducts();
+  const rugbyProducts = products.filter(product => product.category === 'Rugby');
 
   return (
-    <div className="product-card">
-      <img
-        src={imageUrl}
-        alt={altText}
-        className="product-image"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src =
-            'https://placehold.co/200x200/FFFFFF/4B0082?text=Image+Error';
-        }}
-      />
-      <div className="product-info">
-        <p className="product-name">{productName}</p>
-        <p className="product-price">{price}</p>
+    <>
+      <Header />
+      <div className="user-products-page">
+        <h2>Rugby Products</h2>
+        <div className="products-grid">
+          {rugbyProducts.length === 0 && <p>No rugby products available.</p>}
+          {rugbyProducts.map(product => (
+            <div key={product._id || product.id} className="product-card">
+              <div className="product-image">
+                <img
+                  src={product.imageUrls && product.imageUrls.length > 0 ? backendUrl + product.imageUrls[0] : '/default-product.png'}
+                  alt={product.productName}
+                />
+              </div>
+              <div className="product-info">
+                <h3>{product.productName}</h3>
+                <p className="product-price">₹{product.price}</p>
+                <p className="product-qty">Stock: {product.quantity}</p>
+                <p className="product-category">{product.category}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="add-to-cart-overlay">
-        <button className="add-to-cart-button" onClick={handleAddToCart}>
-          Add to Cart
-        </button>
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
-export default App;
+export default Rugby;

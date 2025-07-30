@@ -18,38 +18,41 @@ import Header from './components/Header';
 import AdminDashboard from './admin_pages/AdminDashboard';
 
 import { AuthProvider } from './context/AuthContext';
+import { ProductProvider } from './context/ProductContext';
 import { AdminRoute, UserRoute } from './ProtectedRoutes';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/loginPage" element={<LoginPage />} />
-          <Route path="/dashboard" element={
-            <UserRoute>
-              <Dashboard />
-            </UserRoute>
-          } />
-          <Route path="/admin/*" element={
-            <AdminRoute>
-              <AdminDashboard />
-            </AdminRoute>
-          } />
-          <Route path="/admin-dashboard" element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/product" element={<Product />} />
-          <Route path="/cricket" element={<Cricket />} />
-          <Route path="/football" element={<Football />} />
-          <Route path="/rugby" element={<Rugby />} />
-          <Route path="/tennis" element={<Tennis />} />
-          <Route path="/*" element={<NotFound />} />
-        </Routes>
+        <ProductProvider>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/loginPage" element={<LoginPage />} />
+            <Route path="/dashboard" element={
+              <UserRoute>
+                <Dashboard />
+              </UserRoute>
+            } />
+            <Route path="/admin/*" element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            } />
+            <Route path="/admin-dashboard" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/product" element={<Product />} />
+            <Route path="/cricket" element={<Cricket />} />
+            <Route path="/football" element={<Football />} />
+            <Route path="/rugby" element={<Rugby />} />
+            <Route path="/tennis" element={<Tennis />} />
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+        </ProductProvider>
       </AuthProvider>
     </Router>
   );

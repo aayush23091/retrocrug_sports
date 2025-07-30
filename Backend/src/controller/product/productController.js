@@ -25,6 +25,19 @@ const getAll = async (req, res) => {
 const create = async (req, res) => {
   try {
     const body = req.body;
+    console.log('=== BACKEND: Creating product ===');
+    console.log('Received body:', body);
+    console.log('Category received:', body.category);
+
+    // Handle uploaded images
+    let imageUrls = [];
+    if (req.files && req.files.length > 0) {
+      imageUrls = req.files.map(file => `/uploads/${file.filename}`);
+    } else if (body.imageUrls) {
+      // fallback for manual or API uploads
+      imageUrls = Array.isArray(body.imageUrls) ? body.imageUrls : [body.imageUrls];
+    }
+
     if (
       !body.sku ||
       !body.productName ||
@@ -35,6 +48,7 @@ const create = async (req, res) => {
     ) {
       return res.status(400).send({ message: "Missing required fields" });
     }
+
     const product = await Product.create({
       sku: body.sku,
       productName: body.productName,
@@ -44,11 +58,15 @@ const create = async (req, res) => {
       price: body.price,
       quantity: body.quantity,
       status: body.status,
-      imageUrls: body.imageUrls || [],
+      imageUrls,
     });
+
+    console.log('=== BACKEND: Product created successfully ===');
+    console.log('Created product:', product.toJSON());
+
     res.status(201).send({ data: product, message: "Product created successfully" });
   } catch (e) {
-    console.error(e);
+    console.error('=== BACKEND: Error creating product ===', e);
     res.status(500).json({ error: "Failed to create product" });
   }
 };
@@ -64,7 +82,20 @@ const update = async (req, res) => {
     if (!product) {
       return res.status(404).send({ message: "Product not found" });
     }
-    await product.update(body);
+
+    // Handle uploaded images
+    let imageUrls = product.imageUrls || [];
+    if (req.files && req.files.length > 0) {
+      // Add new uploaded images to the array
+      imageUrls = imageUrls.concat(req.files.map(file => `/uploads/${file.filename}`));
+    }
+    // Optionally, allow removing images (not implemented here)
+
+    // Update product fields
+    await product.update({
+      ...body,
+      imageUrls,
+    });
     res.status(200).send({ data: product, message: "Product updated successfully" });
   } catch (e) {
     console.error(e);

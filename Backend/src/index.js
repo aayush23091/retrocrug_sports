@@ -13,6 +13,7 @@ import { createAdminUser } from "./seeders/createAdminUser.js";
 dotenv.config();
 
 const app = express();
+app.use('/uploads', express.static('uploads'));
 const port = process.env.PORT || 5000;
 
 // ✅ Enable CORS

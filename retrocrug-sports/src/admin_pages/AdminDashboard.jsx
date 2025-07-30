@@ -9,6 +9,7 @@ import AddProduct from './AddProduct';
 import AddCustomer from './AddCustomer';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
+import EditProduct from './EditProduct';
 
 // Dashboard Home Component with Charts and Statistics
 const DashboardHome = () => {
@@ -208,6 +209,7 @@ const AdminDashboard = () => {
             <Route path="product" element={<AdminProduct />} />
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="addcustomer" element={<AddCustomer />} />
+            <Route path="editproduct/:id" element={<EditProduct />} />
             <Route path="*" element={<DashboardHome />} />
           </Routes>
         </div>
@@ -216,4 +218,7 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard
+export default AdminDashboard;
+
+
+

@@ -1,13 +1,11 @@
 
+
 // import React, { createContext, useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 
 // export const AuthContext = createContext();
 
 // export const AuthProvider = ({ children }) => {
-//   const navigate = useNavigate();
 //   const [user, setUser] = useState(() => {
-//     // Try to get user info from localStorage on initial load
 //     const storedUser = localStorage.getItem('user');
 //     return storedUser ? JSON.parse(storedUser) : null;
 //   });
@@ -25,8 +23,7 @@
 //   };
 
 //   const logout = () => {
-//     setUser(null);
-//     navigate('/loginPage');
+//     setUser(null); // navigation will be handled by component
 //   };
 
 //   return (
@@ -37,8 +34,7 @@
 // };
 
 
-
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 export const AuthContext = createContext();
 
@@ -61,7 +57,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    setUser(null); // navigation will be handled by component
+    setUser(null);
   };
 
   return (
@@ -69,4 +65,9 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+// ✅ Add this hook to allow usage in other components
+export const useAuth = () => {
+  return useContext(AuthContext);
 };
