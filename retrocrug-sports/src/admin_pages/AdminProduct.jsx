@@ -13,11 +13,13 @@ const AdminProduct = () => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     setDeletingId(id);
     try {
-      // Use the full URL with the correct port
+      // Use the full URL with the correct port and add authorization token
+      const token = localStorage.getItem('access_token');
       const response = await fetch(`http://localhost:5000/api/product/${id}`, { 
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
       });
       

@@ -55,6 +55,7 @@ import About from './pages/About';
 import Account from './pages/Account';
 import Cart from './pages/Cart';
 import Product from './pages/Product';
+import ProductDetail from './pages/ProductDetail';
 import Cricket from './pages/Cricket';
 import Football from './pages/Football';
 import Rugby from './pages/Rugby';
@@ -94,6 +95,7 @@ function App() {
               <Route path="/account" element={<Account />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/product" element={<Product />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cricket" element={<Cricket />} />
               <Route path="/football" element={<Football />} />
               <Route path="/rugby" element={<Rugby />} />

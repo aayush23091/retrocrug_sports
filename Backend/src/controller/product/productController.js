@@ -121,9 +121,27 @@ const deleteById = async (req, res) => {
   }
 };
 
+/**
+ * Get a product by ID
+ */
+const getById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByPk(id);
+    if (!product) {
+      return res.status(404).send({ message: "Product not found" });
+    }
+    res.status(200).send({ data: product, message: "Successfully fetched product" });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Failed to fetch product" });
+  }
+};
+
 export const productController = {
   getAll,
   create,
   update,
   deleteById,
+  getById,
 };

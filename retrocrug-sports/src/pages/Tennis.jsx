@@ -51,6 +51,7 @@ const Tennis = () => {
             return (
               <ProductCard
                 key={product.id}
+                id={product.id}
                 name={product.productName}
                 price={product.price}
                 image={imageUrl}

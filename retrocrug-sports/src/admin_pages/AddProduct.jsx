@@ -122,9 +122,13 @@ const AddProduct = () => {
     images.forEach(img => formData.append('images', img));
     
     try {
-      // Use the full URL with the correct port
+      // Use the full URL with the correct port and add authorization token
+      const token = localStorage.getItem('access_token');
       const response = await fetch('http://localhost:5000/api/product', {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formData,
       });
       

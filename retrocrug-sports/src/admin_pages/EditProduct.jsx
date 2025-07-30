@@ -26,22 +26,35 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
-      const res = await fetch(`/api/product/${id}`);
-      if (res.ok) {
-        const data = await res.json();
-        setForm({
-          sku: data.data.sku || '',
-          productName: data.data.productName || '',
-          size: data.data.size || '',
-          color: data.data.color || '',
-          category: data.data.category || '',
-          price: data.data.price || '',
-          quantity: data.data.quantity || '',
-          status: data.data.status || '',
+      try {
+        const token = localStorage.getItem('access_token');
+        const res = await fetch(`http://localhost:5000/api/product/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         });
-        setExistingImages(data.data.imageUrls || []);
+        if (res.ok) {
+          const data = await res.json();
+          setForm({
+            sku: data.data.sku || '',
+            productName: data.data.productName || '',
+            size: data.data.size || '',
+            color: data.data.color || '',
+            category: data.data.category || '',
+            price: data.data.price || '',
+            quantity: data.data.quantity || '',
+            status: data.data.status || '',
+          });
+          setExistingImages(data.data.imageUrls || []);
+        } else {
+          throw new Error(`Failed to fetch product: ${res.status}`);
+        }
+      } catch (err) {
+        console.error('Fetch product error:', err);
+        alert('Failed to fetch product: ' + err.message);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchProduct();
   }, [id]);
@@ -61,13 +74,24 @@ const EditProduct = () => {
     Object.entries(form).forEach(([key, value]) => formData.append(key, value));
     images.forEach(img => formData.append('images', img));
     try {
-      await fetch(`/api/product/${id}`, {
+      const token = localStorage.getItem('access_token');
+      const response = await fetch(`http://localhost:5000/api/product/${id}`, {
         method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formData,
       });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to update product: ${response.status}`);
+      }
+      
+      alert('Product updated successfully!');
       navigate('/admin/product');
     } catch (err) {
-      alert('Failed to update product');
+      console.error('Update product error:', err);
+      alert('Failed to update product: ' + err.message);
     }
   };
 

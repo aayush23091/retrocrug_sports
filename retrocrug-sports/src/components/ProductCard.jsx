@@ -66,10 +66,12 @@
 
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ProductCard.css"; // Import external CSS
 
 
 export default function ProductCard({
+  id,
   name,
   price,
   originalPrice,
@@ -81,11 +83,19 @@ export default function ProductCard({
   onAddToCart,
 }) {
   const [hovered, setHovered] = useState(false);
-  console.log('ProductCard name prop:', name); // Debug log
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else if (id) {
+      navigate(`/product/${id}`);
+    }
+  };
 
   return (
     <div
-      onClick={onClick}
+      onClick={handleClick}
       className="product-card"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
