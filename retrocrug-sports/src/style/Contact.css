@@ -137,6 +137,34 @@ body {
   transform: translateY(-2px);
 }
 
+.contact-form button:disabled {
+  background-color: #6c6c6c;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  border-left: 4px solid #28a745;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  border-left: 4px solid #dc3545;
+}
+
 .paper-plane {
   text-align: right;
   font-size: 2rem;

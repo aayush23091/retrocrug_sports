@@ -1,6 +1,6 @@
 // import axios from "axios";
 
-// const API_BASE = "http://localhost:5001/api";
+// const API_BASE = "http://localhost:5000/api";
 
 // const api = axios.create({
 //   baseURL: API_BASE,
@@ -47,7 +47,7 @@
 
 import axios from "axios";
 
-const API_BASE = "http://localhost:5001/api";
+const API_BASE = "http://localhost:5000/api";
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -57,12 +57,18 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token');
+    console.log('Interceptor token:', token);
     if (token) {
+      // Make sure headers object exists
+      config.headers = config.headers || {};
+      // Set Authorization header
       config.headers.Authorization = `Bearer ${token}`;
+      console.log('Setting Authorization header:', config.headers.Authorization);
     }
     return config;
   },
   (error) => {
+    console.error('Request interceptor error:', error);
     return Promise.reject(error);
   }
 );
@@ -86,6 +92,43 @@ export const deleteUser = (id) => api.delete(`/users/${id}`);
 export const updateUserProfile = (data) => {
   console.log("updateUserProfile called with data:", data);
   return api.put('/users/profile', data);
+};
+
+// Contact APIs
+export const sendContactMessage = (data) => api.post('/contact', data);
+// The API base URL already includes '/api', so we need to match the backend routes
+export const getContactMessages = () => {
+  const token = localStorage.getItem('access_token');
+  console.log('Calling getContactMessages with token:', token);
+  return api.get('/admin/contact', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+export const getContactMessageById = (id) => {
+  const token = localStorage.getItem('access_token');
+  return api.get(`/admin/contact/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+export const markContactMessageAsRead = (id) => {
+  const token = localStorage.getItem('access_token');
+  return api.put(`/admin/contact/${id}/read`, {}, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+export const deleteContactMessage = (id) => {
+  const token = localStorage.getItem('access_token');
+  return api.delete(`/admin/contact/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 };
 
 export default api;

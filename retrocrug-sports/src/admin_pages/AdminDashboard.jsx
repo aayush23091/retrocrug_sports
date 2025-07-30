@@ -10,6 +10,7 @@ import AddCustomer from './AddCustomer';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import EditProduct from './EditProduct';
+import ContactMessages from './ContactMessages';
 
 // Dashboard Home Component with Charts and Statistics
 const DashboardHome = () => {
@@ -210,6 +211,7 @@ const AdminDashboard = () => {
             <Route path="addproduct" element={<AddProduct />} />
             <Route path="addcustomer" element={<AddCustomer />} />
             <Route path="editproduct/:id" element={<EditProduct />} />
+            <Route path="messages" element={<ContactMessages />} />
             <Route path="*" element={<DashboardHome />} />
           </Routes>
         </div>

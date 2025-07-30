@@ -3,8 +3,67 @@ import React, { useState } from 'react';
 import '../style/Contact.css'; 
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import { sendContactMessage } from '../context/api';
 
 export default function ContactUs() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({
+    success: false,
+    error: false,
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({
+      success: false,
+      error: false,
+      message: ''
+    });
+
+    try {
+      await sendContactMessage(formData);
+      setSubmitStatus({
+        success: true,
+        error: false,
+        message: 'Your message has been sent successfully! We will get back to you soon.'
+      });
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setSubmitStatus({
+        success: false,
+        error: true,
+        message: 'Failed to send message. Please try again later.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div>
         <Header />
@@ -21,17 +80,59 @@ export default function ContactUs() {
           </ul>
           <div className="info-decor" />
         </div>
-        <form className="contact-form">
+        <form className="contact-form" onSubmit={handleSubmit}>
+          {submitStatus.success && (
+            <div className="success-message">{submitStatus.message}</div>
+          )}
+          {submitStatus.error && (
+            <div className="error-message">{submitStatus.message}</div>
+          )}
           <div className="row">
-            <input type="text" placeholder="First Name" />
-            <input type="text" placeholder="Last Name" />
+            <input 
+              type="text" 
+              name="firstName"
+              placeholder="First Name" 
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+            />
+            <input 
+              type="text" 
+              name="lastName"
+              placeholder="Last Name" 
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="row">
-            <input type="email" placeholder="Email" />
-            <input type="text" placeholder="Phone Number" />
+            <input 
+              type="email" 
+              name="email"
+              placeholder="Email" 
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <input 
+              type="text" 
+              name="phone"
+              placeholder="Phone Number" 
+              value={formData.phone}
+              onChange={handleChange}
+              required
+            />
           </div>
-          <textarea placeholder="Write your message.."></textarea>
-          <button type="submit">Send Message</button>
+          <textarea 
+            name="message"
+            placeholder="Write your message.."
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></textarea>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Sending...' : 'Send Message'}
+          </button>
         </form>
       </div>
       

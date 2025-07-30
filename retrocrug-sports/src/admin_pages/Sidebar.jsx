@@ -47,6 +47,13 @@ const Sidebar = () => {
           <i className="fas fa-box"></i>
           <span>Product</span>
         </NavLink>
+        <NavLink
+          to="/admin/messages"
+          className={({ isActive }) => "menu-item" + (isActive ? " active" : "")}
+        >
+          <i className="fas fa-envelope"></i>
+          <span>Messages</span>
+        </NavLink>
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors"; // <-- import CORS
 import { db } from "./database/index.js";
-import { userRouter, authRouter, productRouter } from "./route/index.js";
+import { userRouter, authRouter, productRouter, contactRouter } from "./route/index.js";
 import dotenv from "dotenv";
 import { authenticateToken } from "./middleware/token-middleware.js";
 import router from "./route/uploadRoutes.js";
@@ -89,11 +89,32 @@ app.use(bodyParser.json());
 // Public routes
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter); // Make product routes public
+app.use("/api/contact", contactRouter); // Public route for contact form submission
 
 // Protect routes below
 app.use(authenticateToken);
 app.use("/api/users", userRouter);
 app.use("/api/file", router);
+
+// Protected contact routes (for admin)
+app.use("/api/admin/contact", authenticateToken, (req, res, next) => {
+  // Check if user is admin
+  console.log('Admin check - User object:', req.user);
+  
+  // Handle different possible structures of the user object
+  const isAdmin = 
+    (req.user?.isAdmin) || 
+    (req.user?.user?.isAdmin);
+  
+  console.log('Admin check - isAdmin value:', isAdmin);
+  
+  if (!req.user || !isAdmin) {
+    console.log('Access denied: Not an admin');
+    return res.status(403).json({ error: 'Access denied: Admin only' });
+  }
+  console.log('Admin access granted');
+  next();
+}, contactRouter);
 
 // Create uploads folder
 createUploadsFolder();

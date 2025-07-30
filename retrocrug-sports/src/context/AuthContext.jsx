@@ -56,13 +56,17 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       localStorage.setItem('access_token', token);
+      console.log('Token stored in localStorage:', token);
     } else {
       localStorage.removeItem('access_token');
+      console.log('Token removed from localStorage');
     }
   }, [token]);
 
   // login now takes userData and token
   const login = (userData, token) => {
+    console.log('Login called with userData:', userData);
+    console.log('Login called with token:', token);
     setUser(userData);
     setToken(token);
     localStorage.setItem('user', JSON.stringify(userData));
@@ -76,8 +80,18 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('access_token');
   };
 
+  // Debug function to check authentication state
+  const checkAuthState = () => {
+    console.log('Current auth state:');
+    console.log('User:', user);
+    console.log('Token:', token);
+    console.log('LocalStorage user:', localStorage.getItem('user'));
+    console.log('LocalStorage token:', localStorage.getItem('access_token'));
+    return { user, token };
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, checkAuthState }}>
       {children}
     </AuthContext.Provider>
   );

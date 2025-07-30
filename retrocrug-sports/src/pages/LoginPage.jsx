@@ -248,7 +248,7 @@ const LoginPage = () => {
     try {
       const { email, password } = formData;
 
-      const response = await axios.post('http://localhost:5001/api/auth/login', {
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
         email,
         password,
       });
@@ -257,27 +257,39 @@ const LoginPage = () => {
 
       // ✅ Extract user from nested response
       const userData = response.data?.data?.user;
+      const token = response.data?.data?.access_token;
+
+      console.log("User data from login:", userData);
+      console.log("Token from login:", token);
 
       if (!userData) {
         setError("Invalid login response: user data missing.");
         return;
       }
 
-      // Optional: Store token if needed
-      const token = response.data?.data?.access_token;
-      if (token) {
-        localStorage.setItem('access_token', token);
+      if (!token) {
+        setError("Invalid login response: token missing.");
+        return;
       }
 
+      // Store token in localStorage
+      localStorage.setItem('access_token', token);
+      console.log('Token stored in localStorage:', localStorage.getItem('access_token'));
+
+      // Call login function from AuthContext
       login(userData, token);
+      console.log('Login function called with:', { userData, token });
 
       // ✅ Safe redirect based on user role
       if (userData.isAdmin) {
+        console.log('User is admin, redirecting to admin dashboard');
         navigate('/admin-dashboard');
       } else {
+        console.log('User is not admin, redirecting to dashboard');
         navigate('/dashboard');
       }
     } catch (err) {
+      console.error('Login error:', err);
       const errMsg = err.response?.data?.message || err.message || 'Login failed. Please try again.';
       setError(errMsg);
     } finally {

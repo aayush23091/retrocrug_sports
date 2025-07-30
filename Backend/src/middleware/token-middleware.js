@@ -80,6 +80,7 @@ export function authenticateToken(req, res, next) {
     }
     req.user = decoded; // Attach decoded payload to request object
     console.log("Token verification successful");
+    console.log("Decoded user object structure:", JSON.stringify(decoded, null, 2));
     next(); // Proceed to the next middleware or route handler
   });
 }
