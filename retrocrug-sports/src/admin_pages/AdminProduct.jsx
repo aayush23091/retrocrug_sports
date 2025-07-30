@@ -13,14 +13,26 @@ const AdminProduct = () => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     setDeletingId(id);
     try {
-      await fetch(`/api/product/${id}`, { method: 'DELETE' });
+      // Use the full URL with the correct port
+      const response = await fetch(`http://localhost:5000/api/product/${id}`, { 
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to delete: ${response.status}`);
+      }
+      
       if (refreshProducts) {
         await refreshProducts();
       } else {
         window.location.reload(); // fallback
       }
     } catch (err) {
-      alert('Failed to delete product');
+      console.error('Delete error:', err);
+      alert('Failed to delete product: ' + err.message);
     } finally {
       setDeletingId(null);
     }

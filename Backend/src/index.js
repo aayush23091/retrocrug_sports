@@ -3,7 +3,7 @@
 // import bodyParser from "body-parser";
 // import cors from "cors"; // <-- import CORS
 // import { db } from "./database/index.js";
-// import { userRouter, authRouter, productRouter } from "./route/index.js";
+// import { userRouter, authRouter, productRouter, contactRouter } from "./route/index.js";
 // import dotenv from "dotenv";
 // import { authenticateToken } from "./middleware/token-middleware.js";
 // import router from "./route/uploadRoutes.js";
@@ -14,24 +14,6 @@
 
 // const app = express();
 // app.use('/uploads', express.static('uploads'));
-
-// // Add logging for app startup
-// console.log("Express app initialized");
-
-// // Add logging for all requests
-// app.use((req, res, next) => {
-//   console.log(`Received ${req.method} request for ${req.url}`);
-//   console.log("Request headers:", req.headers);
-//   console.log("Request body:", req.body);
-//   next();
-// });
-
-// // Add error handling middleware
-// app.use((err, req, res, next) => {
-//   console.error("Unhandled error:", err);
-//   res.status(500).send({ error: "Internal server error" });
-// });
-
 // const port = process.env.PORT || 5000;
 
 // // ✅ Enable CORS
@@ -42,12 +24,33 @@
 
 // // Public routes
 // app.use("/api/auth", authRouter);
+// app.use("/api/product", productRouter); // Make product routes public
+// app.use("/api/contact", contactRouter); // Public route for contact form submission
 
 // // Protect routes below
 // app.use(authenticateToken);
 // app.use("/api/users", userRouter);
 // app.use("/api/file", router);
-// app.use("/api/product", productRouter);
+
+// // Protected contact routes (for admin)
+// app.use("/api/admin/contact", authenticateToken, (req, res, next) => {
+//   // Check if user is admin
+//   console.log('Admin check - User object:', req.user);
+  
+//   // Handle different possible structures of the user object
+//   const isAdmin = 
+//     (req.user?.isAdmin) || 
+//     (req.user?.user?.isAdmin);
+  
+//   console.log('Admin check - isAdmin value:', isAdmin);
+  
+//   if (!req.user || !isAdmin) {
+//     console.log('Access denied: Not an admin');
+//     return res.status(403).json({ error: 'Access denied: Admin only' });
+//   }
+//   console.log('Admin access granted');
+//   next();
+// }, contactRouter);
 
 // // Create uploads folder
 // createUploadsFolder();
@@ -60,7 +63,6 @@
 //   console.log(`Project running on port ${port}`);
 //   db();
 // });
-
 
 
 import express from "express";
@@ -127,4 +129,3 @@ app.listen(port, function () {
   console.log(`Project running on port ${port}`);
   db();
 });
-

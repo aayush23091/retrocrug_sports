@@ -27,20 +27,26 @@ export const useProducts = () => useContext(ProductContext);
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
-  // Fetch products from backend on mount (optional, but recommended)
+  // Function to refresh products from the backend
+  const refreshProducts = async () => {
+    console.log('=== PRODUCT CONTEXT: Refreshing products ===');
+    try {
+      const res = await api.get('/product');
+      console.log('=== PRODUCT CONTEXT: Successfully refreshed products ===');
+      console.log('Response data:', res.data);
+      console.log('Products array:', res.data.data);
+      setProducts(res.data.data);
+      return res.data.data;
+    } catch (err) {
+      console.error("=== PRODUCT CONTEXT: Failed to refresh products ===", err);
+      console.error("Error details:", err.response?.data || err.message);
+      return [];
+    }
+  };
+
+  // Fetch products from backend on mount
   React.useEffect(() => {
-    console.log('=== PRODUCT CONTEXT: Fetching products ===');
-    api.get('/product')
-      .then(res => {
-        console.log('=== PRODUCT CONTEXT: Successfully fetched products ===');
-        console.log('Response data:', res.data);
-        console.log('Products array:', res.data.data);
-        setProducts(res.data.data);
-      })
-      .catch(err => {
-        console.error("=== PRODUCT CONTEXT: Failed to load products ===", err);
-        console.error("Error details:", err.response?.data || err.message);
-      });
+    refreshProducts();
   }, []);
 
   const addProduct = async (product) => {
@@ -55,14 +61,16 @@ export const ProductProvider = ({ children }) => {
         console.log('Updated products array:', newProducts);
         return newProducts;
       });
+      return res.data.data;
     } catch (error) {
       console.error('=== PRODUCT CONTEXT: Failed to add product ===', error);
       console.error('Error details:', error.response?.data || error.message);
+      throw error;
     }
   };
 
   return (
-    <ProductContext.Provider value={{ products, addProduct }}>
+    <ProductContext.Provider value={{ products, addProduct, refreshProducts }}>
       {children}
     </ProductContext.Provider>
   );

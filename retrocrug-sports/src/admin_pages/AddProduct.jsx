@@ -81,9 +81,11 @@ import React, { useState } from 'react';
 import '../style/AddProduct.css';
 import Sidebar from './Sidebar';
 import { useNavigate } from 'react-router-dom';
+import { useProducts } from '../context/ProductContext';
 
 const AddProduct = () => {
   const navigate = useNavigate();
+  const { addProduct } = useProducts();
   const [form, setForm] = useState({
     sku: '',
     productName: '',
@@ -95,6 +97,7 @@ const AddProduct = () => {
     status: '',
   });
   const [images, setImages] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -111,17 +114,31 @@ const AddProduct = () => {
       alert('Please fill all required fields');
       return;
     }
+    
+    setIsSubmitting(true);
+    
     const formData = new FormData();
     Object.entries(form).forEach(([key, value]) => formData.append(key, value));
     images.forEach(img => formData.append('images', img));
+    
     try {
-      await fetch('/api/product', {
+      // Use the full URL with the correct port
+      const response = await fetch('http://localhost:5000/api/product', {
         method: 'POST',
         body: formData,
       });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to add product: ${response.status}`);
+      }
+      
+      alert('Product added successfully!');
       navigate('/admin/product');
     } catch (err) {
-      alert('Failed to add product');
+      console.error('Add product error:', err);
+      alert('Failed to add product: ' + err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
