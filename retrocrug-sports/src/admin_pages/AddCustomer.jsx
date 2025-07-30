@@ -9,7 +9,7 @@ const AddCustomer = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: 'password123', // Default password
+    password: '',
     phone: '',
     address: '',
     postalCode: ''
@@ -33,8 +33,15 @@ const AddCustomer = () => {
 
     try {
       // Validate form data
-      if (!formData.name || !formData.email) {
-        setError('Name and email are required');
+      if (!formData.name || !formData.email || !formData.password) {
+        setError('Name, email, and password are required');
+        setLoading(false);
+        return;
+      }
+      
+      // Validate password length
+      if (formData.password.length < 6) {
+        setError('Password must be at least 6 characters long');
         setLoading(false);
         return;
       }
@@ -93,6 +100,16 @@ const AddCustomer = () => {
               name="email"
               placeholder="Input email" 
               value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            
+            <label>Password</label>
+            <input 
+              type="password" 
+              name="password"
+              placeholder="Set password for customer" 
+              value={formData.password}
               onChange={handleChange}
               required
             />
