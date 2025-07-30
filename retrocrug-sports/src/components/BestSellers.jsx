@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import '../style/BestSellers.css';
 import { useProducts } from '../context/ProductContext';
+import { useCart } from '../context/CartContext';
+import ProductCard from './ProductCard';
 import { Link } from 'react-router-dom';
 
 const BestSellers = () => {
   const { products } = useProducts();
+  const { addToCart } = useCart();
   const [randomProducts, setRandomProducts] = useState([]);
 
   // Function to shuffle and pick a subset of products
@@ -30,18 +33,13 @@ const BestSellers = () => {
 
           <div className="products-grid">
             {randomProducts.map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-image">
-<img src={`http://localhost:5000${product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : '/default-product.png'}`} alt={product.productName} />
-                </div>
-                <div className="product-info">
-                  <h3>{product.productName}</h3>
-                  <p className="price">RS.{product.price}</p>
-                </div>
-                <div className="add-to-cart">
-                  <button>Add to Cart</button>
-                </div>
-              </div>
+              <ProductCard
+                key={product.id}
+                name={product.productName}
+                price={product.price}
+                image={product.imageUrls && product.imageUrls.length > 0 ? `http://localhost:5000${product.imageUrls[0]}` : '/default-product.png'}
+                onAddToCart={() => addToCart(product.id, 1)}
+              />
             ))}
           </div>
         </div>
