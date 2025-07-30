@@ -1,14 +1,19 @@
 import React from 'react';
 import { useProducts } from '../context/ProductContext';
+import { useCart } from '../context/CartContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import ProductCard from '../components/ProductCard';
 import '../style/ProductCard.css';
 
 const backendUrl = "http://localhost:5000";
 
 const Cricket = () => {
   const { products } = useProducts();
+  const { addToCart } = useCart();
   const cricketProducts = products.filter(product => product.category === 'Cricket');
+
+  console.log('cricketProducts:', cricketProducts); // Debug log
 
   return (
     <>
@@ -18,20 +23,14 @@ const Cricket = () => {
         <div className="products-grid">
           {cricketProducts.length === 0 && <p>No cricket products available.</p>}
           {cricketProducts.map(product => (
-            <div key={product._id || product.id} className="product-card">
-              <div className="product-image">
-                <img
-                  src={product.imageUrls && product.imageUrls.length > 0 ? backendUrl + product.imageUrls[0] : '/default-product.png'}
-                  alt={product.productName}
-                />
-              </div>
-              <div className="product-info">
-                <h3>{product.productName}</h3>
-                <p className="product-price">₹{product.price}</p>
-                <p className="product-qty">Stock: {product.quantity}</p>
-                <p className="product-category">{product.category}</p>
-              </div>
-            </div>
+            <ProductCard
+              key={product._id || product.id}
+              name={product.productName}
+              price={product.price}
+              image={product.imageUrls && product.imageUrls.length > 0 ? backendUrl + product.imageUrls[0] : '/default-product.png'}
+              showAddToCart={true}
+              onAddToCart={() => addToCart(product.id || product._id, 1)}
+            />
           ))}
         </div>
       </div>
@@ -41,5 +40,4 @@ const Cricket = () => {
 };
 
 export default Cricket;
-
 

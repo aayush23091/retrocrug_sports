@@ -269,7 +269,7 @@ const LoginPage = () => {
         localStorage.setItem('access_token', token);
       }
 
-      login(userData);
+      login(userData, token);
 
       // ✅ Safe redirect based on user role
       if (userData.isAdmin) {

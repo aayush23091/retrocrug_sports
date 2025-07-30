@@ -1,37 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';  // import useNavigate
 import '../style/Cart.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useCart } from '../context/CartContext';
 
 const CartPage = () => {
   const navigate = useNavigate();  // initialize navigate
+  const { cartItems, updateCartQuantity, removeFromCart } = useCart();
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'SS English Willow',
-      price: 10500,
-      image: '/bat.png',
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: 'Mr.Yod Football',
-      price: 850,
-      image: '/football.png',
-      quantity: 1,
-    },
-  ]);
+  console.log('Cart page cartItems:', cartItems);
+  if (cartItems.length > 0) {
+    console.log('First cart item in Cart page:', cartItems[0]);
+  }
 
-  const updateQuantity = (id, value) => {
-    const updated = cartItems.map((item) =>
-      item.id === id ? { ...item, quantity: parseInt(value) } : item
-    );
-    setCartItems(updated);
+  // Remove local cartItems state and setCartItems
+
+  const updateQuantity = async (productId, newQuantity) => {
+    if (newQuantity < 1) return; // Don't allow quantity less than 1
+    await updateCartQuantity(productId, newQuantity);
   };
 
-  const getSubtotal = (item) => item.price * item.quantity;
+  const handleRemoveFromCart = async (productId) => {
+    await removeFromCart(productId);
+  };
+
+  const getSubtotal = (item) => {
+    const price = item.Product?.price || 0;
+    const quantity = item.quantity || 1;
+    return price * quantity;
+  };
   const getTotal = () => cartItems.reduce((sum, item) => sum + getSubtotal(item), 0);
 
   // handler for return to shop button
@@ -49,25 +47,43 @@ const CartPage = () => {
             <span>Price</span>
             <span>Quantity</span>
             <span>Subtotal</span>
+            <span>Action</span>
           </div>
+          {cartItems.length === 0 && <div className="cart-item">Your cart is empty.</div>}
           {cartItems.map((item) => (
             <div className="cart-item" key={item.id}>
               <div className="cart-product">
-                <img src={item.image} alt={item.name} />
-                <span>{item.name}</span>
+                <img 
+                  src={item.Product?.imageUrls?.[0] ? `http://localhost:5000${item.Product.imageUrls[0]}` : '/default-product.png'} 
+                  alt={item.Product?.productName || 'Product'} 
+                />
+                <span>{item.Product?.productName || 'Unknown Product'}</span>
               </div>
-              <span>{item.price}</span>
-              <select
-                value={item.quantity}
-                onChange={(e) => updateQuantity(item.id, e.target.value)}
+              <span>₹{item.Product?.price || 0}</span>
+              <div className="quantity-controls">
+                <button 
+                  className="quantity-btn minus" 
+                  onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                  disabled={item.quantity <= 1}
+                >
+                  -
+                </button>
+                <span className="quantity-display">{item.quantity || 1}</span>
+                <button 
+                  className="quantity-btn plus" 
+                  onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                >
+                  +
+                </button>
+              </div>
+              <span>₹{getSubtotal(item)}</span>
+              <button 
+                className="delete-btn" 
+                onClick={() => handleRemoveFromCart(item.productId)}
+                title="Remove from cart"
               >
-                {[...Array(10)].map((_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {String(i + 1).padStart(2, '0')}
-                  </option>
-                ))}
-              </select>
-              <span>{getSubtotal(item)}</span>
+                🗑️
+              </button>
             </div>
           ))}
           <div className="cart-buttons">
@@ -79,7 +95,7 @@ const CartPage = () => {
           <h3>Cart Total</h3>
           <div className="summary-row">
             <span>Subtotal:</span>
-            <span>{getTotal()}</span>
+            <span>₹{getTotal()}</span>
           </div>
           <div className="summary-row">
             <span>Shipping:</span>
@@ -87,7 +103,7 @@ const CartPage = () => {
           </div>
           <div className="summary-row total">
             <span>Total:</span>
-            <span>{getTotal()}</span>
+            <span>₹{getTotal()}</span>
           </div>
           <button className="btn-primary">Proceed to checkout</button>
         </div>

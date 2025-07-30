@@ -7,4 +7,10 @@ router.put("/:id", userController.update);
 router.get("/:id", userController.getById);
 router.delete("/:id", userController.delelteById);
 
+// Cart routes
+router.post("/:id/cart", userController.addToCart);
+router.get("/:id/cart", userController.getCart);
+router.put("/:id/cart/:productId", userController.updateCartQuantity);
+router.delete("/:id/cart/:productId", userController.removeFromCart);
+
 export { router as userRouter };
