@@ -1,37 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../style/BestSellers.css';
+import { useProducts } from '../context/ProductContext';
+import { Link } from 'react-router-dom';
 
-const Homepage = () => {
-  const bestSellers = [
-    {
-      id: 1,
-      name: 'SS English Willow',
-      price: 'RS.10,500',
-      image: '/bat.png',
-      alt: 'Cricket Bat'
-    },
-    {
-      id: 2,
-      name: 'Kookaburra Ball',
-      price: 'RS.5,500',
-      image: '/ball.png',
-      alt: 'Cricket Ball'
-    },
-    {
-      id: 3,
-      name: 'Forza Rugby Ball',
-      price: 'RS.1,950',
-      image: '/rugby.png',
-      alt: 'Rugby Ball'
-    },
-     {
-      id: 4,
-      name: 'Wilson Racket',
-      price: 'RS.6,950',
-      image: '/rugby.png',
-      alt: 'racket'
+const BestSellers = () => {
+  const { products } = useProducts();
+  const [randomProducts, setRandomProducts] = useState([]);
+
+  // Function to shuffle and pick a subset of products
+  const getRandomProducts = (productsList, count = 4) => {
+    const shuffled = [...productsList].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setRandomProducts(getRandomProducts(products));
     }
-  ];
+  }, [products]);
 
   return (
     <div className="homepage">
@@ -39,18 +25,18 @@ const Homepage = () => {
         <div className="container">
           <div className="section-header">
             <h2 className="section-title">Best-sellers</h2>
-            <a href="#" className="view-all">View all</a>
+            <Link to="/product" className="view-all">View all</Link>
           </div>
 
           <div className="products-grid">
-            {bestSellers.map((product) => (
+            {randomProducts.map((product) => (
               <div key={product.id} className="product-card">
                 <div className="product-image">
-                  <img src={product.image} alt={product.alt} />
+<img src={`http://localhost:5000${product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : '/default-product.png'}`} alt={product.productName} />
                 </div>
                 <div className="product-info">
-                  <h3>{product.name}</h3>
-                  <p className="price">{product.price}</p>
+                  <h3>{product.productName}</h3>
+                  <p className="price">RS.{product.price}</p>
                 </div>
                 <div className="add-to-cart">
                   <button>Add to Cart</button>
@@ -64,4 +50,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default BestSellers;
