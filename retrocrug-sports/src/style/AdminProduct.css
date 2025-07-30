@@ -249,6 +249,22 @@ body {
   justify-content: center;
 }
 
+.add-product-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 15px;
+  transition: var(--transition);
+}
+
+.add-product-btn:hover {
+  background-color: var(--secondary);
+}
+
 .tabs {
   display: flex;
   justify-content: space-between;
