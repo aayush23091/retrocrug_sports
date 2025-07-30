@@ -121,7 +121,7 @@ const ProductDetail = () => {
           <div className="product-info">
             <h1>{product.productName}</h1>
             <p className="product-sku">SKU: {product.sku}</p>
-            <p className="product-price">£{product.price}</p>
+            <p className="product-price">Rs {product.price}</p>
             <div className="product-meta">
               {product.category && <p><strong>Category:</strong> {product.category}</p>}
               {product.size && <p><strong>Size:</strong> {product.size}</p>}
