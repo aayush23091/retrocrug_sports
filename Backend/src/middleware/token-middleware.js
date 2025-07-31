@@ -15,9 +15,12 @@ export function authenticateToken(req, res, next) {
     return next();
   }
 
-  // Get token from Authorization header
-  console.log("Authorization header:", req.header("Authorization"));
-  const token = req.header("Authorization")?.split(" ")[1];
+  // Get full Authorization header for enhanced logging
+  const authHeader = req.header("Authorization");
+  console.log("Full Authorization header:", authHeader);
+
+  // Extract token from Authorization header
+  const token = authHeader?.split(" ")[1];
   console.log("Extracted token:", token);
 
   if (!token) {
