@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-import { Link } from 'react-router-dom';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import '../style/AdminOrder.css'; // Reuse AdminOrder.css for box styling or create a new CSS if needed
 
 const MyOrders = () => {
   const { user, token } = useContext(AuthContext);
@@ -19,7 +21,6 @@ const MyOrders = () => {
 
       try {
         console.log('Fetching orders for user:', user);
-        // The backend now extracts the user ID from the token, so we don't need to pass it in the URL
         const response = await axios.get('http://localhost:5001/api/orders/user/' + user.id, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,57 +66,79 @@ const MyOrders = () => {
   };
 
   if (loading) {
-    return <div className="container mx-auto p-4">Loading orders...</div>;
+    return (
+      <>
+        <Header />
+        <div className="container mx-auto p-4">Loading orders...</div>
+        <Footer />
+      </>
+    );
   }
 
   if (error) {
-    return <div className="container mx-auto p-4 text-red-500">Error: {error}</div>;
+    return (
+      <>
+        <Header />
+        <div className="container mx-auto p-4 text-red-500">Error: {error}</div>
+        <Footer />
+      </>
+    );
   }
 
   if (orders.length === 0) {
-    return <div className="container mx-auto p-4">You have no orders yet.</div>;
+    return (
+      <>
+        <Header />
+        <div className="container mx-auto p-4">You have no orders yet.</div>
+        <Footer />
+      </>
+    );
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">My Orders</h1>
-      <div className="grid grid-cols-1 gap-6">
-        {orders.map((order) => (
-          <div key={order.id} className="bg-white shadow-md rounded-lg p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Order ID: {order.id}</h2>
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${order.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                order.status === 'Shipping' ? 'bg-blue-100 text-blue-800' :
-                  order.status === 'Cancelled' ? 'bg-red-100 text-red-800' :
-                    'bg-yellow-100 text-yellow-800'
-                }`}>
-                {order.status}
-              </span>
+    <>
+      <Header />
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl font-bold mb-6">My Orders</h1>
+        <div className="grid grid-cols-1 gap-6">
+          {orders.map((order) => (
+            <div key={order.id} className="bg-white shadow-md rounded-lg p-6 border border-gray-300">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold">Order ID: {order.id}</h2>
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${order.status === 'Completed' ? 'bg-green-100 text-green-800' :
+                  order.status === 'Shipping' ? 'bg-blue-100 text-blue-800' :
+                    order.status === 'Cancelled' ? 'bg-red-100 text-red-800' :
+                      'bg-yellow-100 text-yellow-800'
+                  }`}>
+                  {order.status}
+                </span>
+              </div>
+              <p className="text-gray-600 mb-2">Total Amount: ${order.totalAmount.toFixed(2)}</p>
+              <p className="text-gray-600 mb-4">Order Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+
+              <h3 className="text-lg font-semibold mb-2">Items:</h3>
+              <ul className="list-disc list-inside mb-4">
+                {order.OrderItems.map((item) => (
+                  <li key={item.id} className="text-gray-700">
+                    {item.Product.productName} (x{item.quantity}) - ${item.price.toFixed(2)} each
+                  </li>
+                ))}
+              </ul>
+
+              {order.status !== 'Cancelled' && order.status !== 'Completed' && (
+                <button
+                  onClick={() => handleCancelOrder(order.id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                >
+                  Cancel Order
+                </button>
+              )}
             </div>
-            <p className="text-gray-600 mb-2">Total Amount: ${order.totalAmount.toFixed(2)}</p>
-            <p className="text-gray-600 mb-4">Order Date: {new Date(order.createdAt).toLocaleDateString()}</p>
-
-            <h3 className="text-lg font-semibold mb-2">Items:</h3>
-            <ul className="list-disc list-inside mb-4">
-              {order.OrderItems.map((item) => (
-                <li key={item.id} className="text-gray-700">
-                  {item.Product.productName} (x{item.quantity}) - ${item.price.toFixed(2)} each
-                </li>
-              ))}
-            </ul>
-
-            {order.status !== 'Cancelled' && order.status !== 'Completed' && (
-              <button
-                onClick={() => handleCancelOrder(order.id)}
-                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
-              >
-                Cancel Order
-              </button>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

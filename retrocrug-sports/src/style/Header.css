@@ -66,7 +66,7 @@ nav {
   align-items: center;
   margin-left: auto;
   position: relative;  /* for dropdown positioning */
-  overflow: visible;   /* ensure dropdown isn’t clipped */
+  overflow: visible;   /* ensure dropdown isn't clipped */
   z-index: 1100;       /* above nav */
 }
 
@@ -101,7 +101,7 @@ nav {
   z-index: 1200;
 }
 
-/* Dropdown styling */
+/* Dropdown styling - FIXED FOR VERTICAL LAYOUT */
 .dropdown-menu {
   position: absolute !important;
   right: 0 !important;
@@ -116,17 +116,21 @@ nav {
   overflow: visible !important;
   z-index: 9999 !important;
   animation: fadeIn 0.25s ease-in-out !important;
+  /* NEW: Ensure vertical stacking */
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 .dropdown-menu li {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
+  /* REMOVED: display: flex - let it be block for vertical stacking */
+  width: 100% !important;
   padding: 0 !important;
   font-size: 14px !important;
   font-weight: 500 !important;
   cursor: pointer !important;
   transition: background-color 0.2s ease-in-out !important;
+  /* NEW: Ensure full width and block display */
+  display: block !important;
 }
 
 .dropdown-menu li:hover {
@@ -139,21 +143,25 @@ nav {
   display: flex !important;
   align-items: center !important;
   width: 100% !important;
-  flex-grow: 1 !important;
-  /* padding: 12px 20px !important; */
+  gap: 12px !important;
+  padding: 12px 20px !important;
+  /* NEW: Ensure proper vertical alignment */
+  flex-direction: row !important;
 }
 
 .logout-button {
   all: unset !important;
   display: flex !important;
   align-items: center !important;
-  /* gap: 12px !important; */
+  gap: 12px !important;
   width: 100% !important;
-  /* padding: 12px 20px !important; */
+  padding: 12px 20px !important;
   font-size: 14px !important;
   font-weight: 500 !important;
   color: black !important;
   cursor: pointer !important;
+  /* NEW: Ensure proper alignment */
+  flex-direction: row !important;
 }
 
 .logout-button:hover {
@@ -163,6 +171,7 @@ nav {
 .dropdown-icon {
   width: 30px !important;
   height: 25px !important;
+  flex-shrink: 0 !important; /* NEW: Prevent icon from shrinking */
 }
 
 /* Animation */
