@@ -3,7 +3,7 @@ import '../style/EditProduct.css';
 import Sidebar from './Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const backendUrl = "http://localhost:5000";
+const backendUrl = "http://localhost:5001";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -28,7 +28,7 @@ const EditProduct = () => {
       setLoading(true);
       try {
         const token = localStorage.getItem('access_token');
-        const res = await fetch(`http://localhost:5000/api/product/${id}`, {
+        const res = await fetch(`http://localhost:5001/api/product/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -75,7 +75,7 @@ const EditProduct = () => {
     images.forEach(img => formData.append('images', img));
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch(`http://localhost:5000/api/product/${id}`, {
+      const response = await fetch(`http://localhost:5001/api/product/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -84,7 +84,8 @@ const EditProduct = () => {
       });
       
       if (!response.ok) {
-        throw new Error(`Failed to update product: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Failed to update product: ${response.status}`);
       }
       
       alert('Product updated successfully!');

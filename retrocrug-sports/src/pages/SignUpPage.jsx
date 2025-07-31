@@ -63,7 +63,7 @@ const SignUpPage = () => {
       const { name, email, password } = formData;
 
       // API call to backend
-      await axios.post("http://localhost:5000/api/users", { name, email, password });
+      await axios.post("http://localhost:5001/api/users", { name, email, password });
 
       // Create a new user object (insecure to store plain passwords in localStorage!)
       const newUser = { name, email, password };

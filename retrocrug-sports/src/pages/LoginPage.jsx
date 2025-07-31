@@ -31,7 +31,7 @@
 //     try {
 //       const { email, password } = formData;
 
-//       const response = await axios.post('http://localhost:5000/api/auth/login', {
+//       const response = await axios.post('http://localhost:5001/api/auth/login', {
 //         email,
 //         password,
 //       });
@@ -162,7 +162,7 @@ const LoginPage = () => {
     try {
       const { email, password } = formData;
 
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('http://localhost:5001/api/auth/login', {
         email,
         password,
       });

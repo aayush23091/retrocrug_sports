@@ -38,7 +38,7 @@ const BestSellers = () => {
                 id={product.id}
                 name={product.productName}
                 price={product.price}
-                image={product.imageUrls && product.imageUrls.length > 0 ? `http://localhost:5000${product.imageUrls[0]}` : '/default-product.png'}
+                image={product.imageUrls && product.imageUrls.length > 0 ? `http://localhost:5001${product.imageUrls[0]}` : '/default-product.png'}
                 onAddToCart={() => addToCart(product.id, 1)}
               />
             ))}

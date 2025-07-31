@@ -4,11 +4,11 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 export const sequelize = new Sequelize(
-  "sportsappdb", // Database name
-  "postgres",
-  "1234", // Database user
+  process.env.DB_NAME, // Database name
+  process.env.DB_USER,
+  process.env.DB_PASSWORD, // Database user
   {
-    host: "localhost",
+    host: process.env.DB_HOST,
     dialect: 'postgres',// other example mysql,oracle,h2
   }
 );

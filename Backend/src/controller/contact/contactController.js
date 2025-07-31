@@ -5,14 +5,11 @@ import { ContactMessage } from '../../models/ContactMessage.js';
  */
 const submitContact = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, message } = req.body;
+    const { name, email, message } = req.body;
     
-    if (!firstName || !lastName || !email || !message) {
+    if (!name || !email || !message) {
       return res.status(400).json({ error: 'All fields are required' });
     }
-    
-    // Combine first and last name for the name field in the database
-    const name = `${firstName} ${lastName}`;
     
     const contact = await ContactMessage.create({
       name,

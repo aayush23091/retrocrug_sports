@@ -67,6 +67,12 @@ const create = async (req, res) => {
     res.status(201).send({ data: product, message: "Product created successfully" });
   } catch (e) {
     console.error('=== BACKEND: Error creating product ===', e);
+    
+    // Check for duplicate SKU error
+    if (e.name === 'SequelizeUniqueConstraintError' && e.errors && e.errors[0].path === 'sku') {
+      return res.status(400).json({ error: "A product with this SKU already exists. Please use a unique SKU." });
+    }
+    
     res.status(500).json({ error: "Failed to create product" });
   }
 };
@@ -98,7 +104,13 @@ const update = async (req, res) => {
     });
     res.status(200).send({ data: product, message: "Product updated successfully" });
   } catch (e) {
-    console.error(e);
+    console.error('=== BACKEND: Error updating product ===', e);
+    
+    // Check for duplicate SKU error
+    if (e.name === 'SequelizeUniqueConstraintError' && e.errors && e.errors[0].path === 'sku') {
+      return res.status(400).json({ error: "A product with this SKU already exists. Please use a unique SKU." });
+    }
+    
     res.status(500).json({ error: "Failed to update product" });
   }
 };

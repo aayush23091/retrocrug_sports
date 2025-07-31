@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import '../style/AdminDashboard.css';
 import AdminOrder from './AdminOrder';
@@ -10,39 +10,74 @@ import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import EditProduct from './EditProduct';
 import ContactMessages from './ContactMessages';
+import api from '../context/api';
 
 // Dashboard Home Component with Charts and Statistics
 const DashboardHome = () => {
-  // Sample data for the dashboard
-  const stats = {
-    totalSales: 125000,
-    totalOrders: 1250,
-    totalCustomers: 850,
-    totalProducts: 120
+  const [stats, setStats] = useState({
+    totalSales: 0,
+    totalOrders: 0,
+    totalCustomers: 0,
+    totalProducts: 0,
+  });
+  const [categoryData, setCategoryData] = useState([]);
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [ordersByStatus, setOrdersByStatus] = useState({});
+
+  // Using the imported api instance from '../context/api'
+
+  useEffect(() => {
+    // Fetch dashboard stats
+    const fetchStats = async () => {
+      try {
+        const res = await api.get('/admin/dashboard/stats');
+        setStats({
+          totalSales: res.data.totalSales,
+          totalOrders: res.data.totalOrders,
+          totalCustomers: res.data.totalCustomers,
+          totalProducts: res.data.totalProducts,
+        });
+        // Prepare category data for pie chart
+        const totalCount = res.data.productCategoryCounts.reduce((sum, item) => sum + item.count, 0);
+        const colors = ['#2E227B', '#54548B', '#7B6BA8', '#A294C4', '#B0A8D3', '#C1B9E0'];
+        const catData = res.data.productCategoryCounts.map((item, index) => ({
+          category: item.category,
+          percentage: ((item.count / totalCount) * 100).toFixed(1),
+          color: colors[index % colors.length],
+        }));
+        setCategoryData(catData);
+      } catch (error) {
+        console.error('Failed to fetch dashboard stats:', error);
+      }
+    };
+
+    // Fetch recent orders
+    const fetchRecentOrders = async () => {
+      try {
+        const res = await api.get('/orders'); // Assuming this is the getAllOrders API
+        setRecentOrders(res.data.data.slice(0, 5)); // Show top 5 recent orders
+        // Calculate orders by status for new graph
+        const statusCounts = res.data.data.reduce((acc, order) => {
+          acc[order.status] = (acc[order.status] || 0) + 1;
+          return acc;
+        }, {});
+        setOrdersByStatus(statusCounts);
+      } catch (error) {
+        console.error('Failed to fetch recent orders:', error);
+      }
+    };
+
+    fetchStats();
+    fetchRecentOrders();
+  }, []);
+
+  // New graph: Orders by status
+  const statusColors = {
+    Pending: '#FFA500',
+    Shipping: '#1E90FF',
+    Completed: '#32CD32',
+    Cancelled: '#FF4500',
   };
-
-  const salesData = [
-    { month: 'Jan', sales: 15000 },
-    { month: 'Feb', sales: 18000 },
-    { month: 'Mar', sales: 22000 },
-    { month: 'Apr', sales: 19000 },
-    { month: 'May', sales: 25000 },
-    { month: 'Jun', sales: 28000 }
-  ];
-
-  const categoryData = [
-    { category: 'Cricket', percentage: 35, color: '#2E227B' },
-    { category: 'Football', percentage: 25, color: '#54548B' },
-    { category: 'Tennis', percentage: 20, color: '#7B6BA8' },
-    { category: 'Rugby', percentage: 20, color: '#A294C4' }
-  ];
-
-  const recentOrders = [
-    { id: '#12345', customer: 'John Doe', amount: 1200, status: 'Completed' },
-    { id: '#12346', customer: 'Jane Smith', amount: 850, status: 'Pending' },
-    { id: '#12347', customer: 'Mike Johnson', amount: 2100, status: 'Processing' },
-    { id: '#12348', customer: 'Sarah Wilson', amount: 750, status: 'Completed' }
-  ];
 
   return (
     <div className="dashboard-home">
@@ -100,26 +135,44 @@ const DashboardHome = () => {
 
       {/* Charts Section */}
       <div className="charts-section">
-        {/* Sales Chart */}
+        {/* Orders by Status Chart */}
         <div className="chart-container">
           <div className="chart-header">
-            <h3>Monthly Sales</h3>
-            <p>Sales performance over the last 6 months</p>
+            <h3>Orders by Status</h3>
+            <p>Current order statuses distribution</p>
           </div>
-          <div className="bar-chart">
-            {salesData.map((item, index) => (
-              <div key={index} className="bar-item">
-                <div 
-                  className="bar" 
-                  style={{ 
-                    height: `${(item.sales / 30000) * 100}%`,
-                    backgroundColor: '#2E227B'
-                  }}
-                ></div>
-                <span className="bar-label">{item.month}</span>
-                <span className="bar-value">Rs. {item.sales.toLocaleString()}</span>
-              </div>
-            ))}
+          <div className="pie-chart">
+            <div className="pie-chart-visual">
+              {Object.entries(ordersByStatus).map(([status, count], index) => {
+                const total = Object.values(ordersByStatus).reduce((a, b) => a + b, 0);
+                const percentage = ((count / total) * 100).toFixed(1);
+                const rotation = Object.values(ordersByStatus)
+                  .slice(0, index)
+                  .reduce((sum, val) => sum + (val / total) * 360, 0);
+                return (
+                  <div
+                    key={index}
+                    className="pie-segment"
+                    style={{
+                      '--percentage': percentage,
+                      '--color': statusColors[status] || '#ccc',
+                      '--rotation': rotation,
+                    }}
+                  ></div>
+                );
+              })}
+            </div>
+            <div className="pie-legend">
+              {Object.entries(ordersByStatus).map(([status, count], index) => (
+                <div key={index} className="legend-item">
+                  <div
+                    className="legend-color"
+                    style={{ backgroundColor: statusColors[status] || '#ccc' }}
+                  ></div>
+                  <span>{status} ({count})</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -132,13 +185,13 @@ const DashboardHome = () => {
           <div className="pie-chart">
             <div className="pie-chart-visual">
               {categoryData.map((item, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className="pie-segment"
                   style={{
                     '--percentage': item.percentage,
                     '--color': item.color,
-                    '--rotation': categoryData.slice(0, index).reduce((sum, cat) => sum + (cat.percentage * 3.6), 0)
+                    '--rotation': categoryData.slice(0, index).reduce((sum, cat) => sum + (parseFloat(cat.percentage) * 3.6), 0),
                   }}
                 ></div>
               ))}
@@ -146,8 +199,8 @@ const DashboardHome = () => {
             <div className="pie-legend">
               {categoryData.map((item, index) => (
                 <div key={index} className="legend-item">
-                  <div 
-                    className="legend-color" 
+                  <div
+                    className="legend-color"
                     style={{ backgroundColor: item.color }}
                   ></div>
                   <span>{item.category} ({item.percentage}%)</span>
@@ -175,11 +228,11 @@ const DashboardHome = () => {
               </tr>
             </thead>
             <tbody>
-              {recentOrders.map((order, index) => (
-                <tr key={index}>
+              {recentOrders.map((order) => (
+                <tr key={order.id}>
                   <td>{order.id}</td>
-                  <td>{order.customer}</td>
-                  <td>Rs. {order.amount}</td>
+                  <td>{order.User?.name || 'Unknown'}</td>
+                  <td>Rs. {order.totalAmount.toLocaleString()}</td>
                   <td>
                     <span className={`status ${order.status.toLowerCase()}`}>
                       {order.status}

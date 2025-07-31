@@ -1,10 +1,13 @@
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "http://localhost:5001/api";
 
 const api = axios.create({
   baseURL: API_BASE,
 });
+
+// Export api instance as default
+export default api;
 
 // Add a request interceptor to automatically add the Authorization header
 api.interceptors.request.use(
@@ -48,7 +51,10 @@ export const updateUserProfile = (data) => {
 };
 
 // Contact APIs
-export const sendContactMessage = (data) => api.post('/contact', data);
+export const sendContactMessage = (data) => {
+  console.log('Sending contact message to API:', data);
+  return api.post('/contact', data);
+};
 // The API base URL already includes '/api', so we need to match the backend routes
 export const getContactMessages = () => {
   const token = localStorage.getItem('access_token');
@@ -84,4 +90,4 @@ export const deleteContactMessage = (id) => {
   });
 };
 
-export default api;
+// API instance is already exported as default

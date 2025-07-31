@@ -15,7 +15,7 @@ const AdminProduct = () => {
     try {
       // Use the full URL with the correct port and add authorization token
       const token = localStorage.getItem('access_token');
-      const response = await fetch(`http://localhost:5000/api/product/${id}`, { 
+      const response = await fetch(`http://localhost:5001/api/product/${id}`, { 
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

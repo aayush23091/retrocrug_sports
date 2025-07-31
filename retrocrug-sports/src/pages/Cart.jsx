@@ -54,7 +54,7 @@ const CartPage = () => {
             <div className="cart-item" key={item.id}>
               <div className="cart-product">
                 <img 
-                  src={item.Product?.imageUrls?.[0] ? `http://localhost:5000${item.Product.imageUrls[0]}` : '/default-product.png'} 
+                  src={item.Product?.imageUrls?.[0] ? `http://localhost:5001${item.Product.imageUrls[0]}` : '/default-product.png'} 
                   alt={item.Product?.productName || 'Product'} 
                 />
                 <span>{item.Product?.productName || 'Unknown Product'}</span>

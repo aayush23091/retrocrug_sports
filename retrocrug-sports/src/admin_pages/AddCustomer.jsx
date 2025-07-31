@@ -58,7 +58,7 @@ const AddCustomer = () => {
       const token = localStorage.getItem('access_token');
       
       // Send request to create user
-      const response = await axios.post('http://localhost:5000/api/users', userData, {
+      const response = await axios.post('http://localhost:5001/api/users', userData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'

@@ -14,7 +14,7 @@
 
 // const app = express();
 // app.use('/uploads', express.static('uploads'));
-// const port = process.env.PORT || 5000;
+// const port = process.env.PORT || 5001;
 
 // // ✅ Enable CORS
 // app.use(cors());
@@ -69,7 +69,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors"; // <-- import CORS
 import { db } from "./database/index.js";
-import { userRouter, authRouter, productRouter, contactRouter, orderRouter } from "./route/index.js";
+import { userRouter, authRouter, productRouter, contactRouter, orderRouter, adminRoute } from "./route/index.js";
 import dotenv from "dotenv";
 import { authenticateToken } from "./middleware/token-middleware.js";
 import router from "./route/uploadRoutes.js";
@@ -80,7 +80,7 @@ dotenv.config();
 
 const app = express();
 app.use('/uploads', express.static('uploads'));
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 // ✅ Enable CORS
 app.use(cors());
@@ -98,6 +98,7 @@ app.use(authenticateToken);
 app.use("/api/users", userRouter);
 app.use("/api/file", router);
 app.use("/api/orders", orderRouter);
+app.use("/api/admin", adminRoute); // Mount admin routes
 
 // Protected contact routes (for admin)
 app.use("/api/admin/contact", authenticateToken, (req, res, next) => {

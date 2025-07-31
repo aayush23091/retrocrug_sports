@@ -46,7 +46,7 @@ const AddProduct = () => {
     try {
       // Use the full URL with the correct port and add authorization token
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://localhost:5000/api/product', {
+      const response = await fetch('http://localhost:5001/api/product', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -55,7 +55,8 @@ const AddProduct = () => {
       });
       
       if (!response.ok) {
-        throw new Error(`Failed to add product: ${response.status}`);
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Failed to add product: ${response.status}`);
       }
       
       alert('Product added successfully!');

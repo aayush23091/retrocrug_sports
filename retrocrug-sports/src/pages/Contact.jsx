@@ -38,7 +38,16 @@ export default function ContactUs() {
     });
 
     try {
-      await sendContactMessage(formData);
+      // Format data to match what the backend expects
+      const formattedData = {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        message: formData.message
+      };
+      
+      console.log('Sending contact message:', formattedData);
+      await sendContactMessage(formattedData);
+      
       setSubmitStatus({
         success: true,
         error: false,

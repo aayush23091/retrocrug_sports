@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import '../style/ProductCard.css';
 
-const backendUrl = "http://localhost:5000";
+const backendUrl = "http://localhost:5001";
 
 const Rugby = () => {
   const { products, refreshProducts } = useProducts();

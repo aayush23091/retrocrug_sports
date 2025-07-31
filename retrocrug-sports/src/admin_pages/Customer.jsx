@@ -16,7 +16,7 @@ const Customer = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('access_token');
-      const response = await axios.get('http://localhost:5000/api/users', {
+      const response = await axios.get('http://localhost:5001/api/users', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -42,7 +42,7 @@ const Customer = () => {
     if (window.confirm('Are you sure you want to delete this customer?')) {
       try {
         const token = localStorage.getItem('access_token');
-        await axios.delete(`http://localhost:5000/api/users/${id}`, {
+        await axios.delete(`http://localhost:5001/api/users/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
