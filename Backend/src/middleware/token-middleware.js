@@ -20,8 +20,13 @@ export function authenticateToken(req, res, next) {
   console.log("Full Authorization header:", authHeader);
 
   // Extract token from Authorization header
-  const token = authHeader?.split(" ")[1];
-  console.log("Extracted token:", token);
+  let token;
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    token = authHeader.split(" ")[1];
+    console.log("Extracted token:", token);
+  } else {
+    console.log("Authorization header malformed or missing Bearer prefix.");
+  }
 
   if (!token) {
     console.log("No token provided");
