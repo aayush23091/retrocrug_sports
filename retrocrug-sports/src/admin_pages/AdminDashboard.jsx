@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import '../style/AdminDashboard.css';
@@ -221,6 +220,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-
-
-

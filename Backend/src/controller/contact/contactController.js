@@ -1,135 +1,55 @@
-import { ContactMessage } from '../../models/index.js';
+import { ContactMessage } from '../../models/ContactMessage.js';
 
 /**
- * Create a new contact message
+ * Submit a new contact message
  */
-const createMessage = async (req, res) => {
+const submitContact = async (req, res) => {
   try {
     const { firstName, lastName, email, phone, message } = req.body;
     
-    // Validation
-    if (!firstName || !lastName || !email || !phone || !message) {
+    if (!firstName || !lastName || !email || !message) {
       return res.status(400).json({ error: 'All fields are required' });
     }
     
-    // Create new contact message
-    const contactMessage = await ContactMessage.create({
-      firstName,
-      lastName,
+    // Combine first and last name for the name field in the database
+    const name = `${firstName} ${lastName}`;
+    
+    const contact = await ContactMessage.create({
+      name,
       email,
-      phone,
       message
     });
     
     res.status(201).json({ 
-      success: true, 
-      message: 'Message sent successfully', 
-      data: contactMessage 
+      data: contact,
+      message: 'Contact message submitted successfully' 
     });
   } catch (error) {
-    console.error('Error creating contact message:', error);
-    res.status(500).json({ error: 'Failed to send message' });
+    console.error('Error submitting contact message:', error);
+    res.status(500).json({ error: 'Failed to submit contact message' });
   }
 };
 
 /**
  * Get all contact messages (for admin)
  */
-const getAllMessages = async (req, res) => {
+const getAllContacts = async (req, res) => {
   try {
-    const messages = await ContactMessage.findAll({
+    const contacts = await ContactMessage.findAll({
       order: [['createdAt', 'DESC']]
     });
     
     res.status(200).json({ 
-      success: true, 
-      data: messages 
+      data: contacts,
+      message: 'Successfully retrieved contact messages' 
     });
   } catch (error) {
-    console.error('Error fetching contact messages:', error);
-    res.status(500).json({ error: 'Failed to fetch messages' });
-  }
-};
-
-/**
- * Get a single contact message by ID
- */
-const getMessageById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const message = await ContactMessage.findByPk(id);
-    
-    if (!message) {
-      return res.status(404).json({ error: 'Message not found' });
-    }
-    
-    res.status(200).json({ 
-      success: true, 
-      data: message 
-    });
-  } catch (error) {
-    console.error('Error fetching contact message:', error);
-    res.status(500).json({ error: 'Failed to fetch message' });
-  }
-};
-
-/**
- * Mark a message as read
- */
-const markAsRead = async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const message = await ContactMessage.findByPk(id);
-    
-    if (!message) {
-      return res.status(404).json({ error: 'Message not found' });
-    }
-    
-    message.isRead = true;
-    await message.save();
-    
-    res.status(200).json({ 
-      success: true, 
-      message: 'Message marked as read', 
-      data: message 
-    });
-  } catch (error) {
-    console.error('Error marking message as read:', error);
-    res.status(500).json({ error: 'Failed to update message' });
-  }
-};
-
-/**
- * Delete a contact message
- */
-const deleteMessage = async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const message = await ContactMessage.findByPk(id);
-    
-    if (!message) {
-      return res.status(404).json({ error: 'Message not found' });
-    }
-    
-    await message.destroy();
-    
-    res.status(200).json({ 
-      success: true, 
-      message: 'Message deleted successfully' 
-    });
-  } catch (error) {
-    console.error('Error deleting contact message:', error);
-    res.status(500).json({ error: 'Failed to delete message' });
+    console.error('Error retrieving contact messages:', error);
+    res.status(500).json({ error: 'Failed to retrieve contact messages' });
   }
 };
 
 export const contactController = {
-  createMessage,
-  getAllMessages,
-  getMessageById,
-  markAsRead,
-  deleteMessage
+  submitContact,
+  getAllContacts
 };
