@@ -3,7 +3,7 @@
 // import bodyParser from "body-parser";
 // import cors from "cors"; // <-- import CORS
 // import { db } from "./database/index.js";
-// import { userRouter, authRouter, productRouter, contactRouter } from "./route/index.js";
+// import { userRouter, authRouter, productRouter, contactRouter, orderRouter } from "./route/index.js";
 // import dotenv from "dotenv";
 // import { authenticateToken } from "./middleware/token-middleware.js";
 // import router from "./route/uploadRoutes.js";
@@ -69,7 +69,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors"; // <-- import CORS
 import { db } from "./database/index.js";
-import { userRouter, authRouter, productRouter, contactRouter } from "./route/index.js";
+import { userRouter, authRouter, productRouter, contactRouter, orderRouter } from "./route/index.js";
 import dotenv from "dotenv";
 import { authenticateToken } from "./middleware/token-middleware.js";
 import router from "./route/uploadRoutes.js";
@@ -97,6 +97,7 @@ app.use("/api/contact", contactRouter); // Public route for contact form submiss
 app.use(authenticateToken);
 app.use("/api/users", userRouter);
 app.use("/api/file", router);
+app.use("/api/orders", orderRouter);
 
 // Protected contact routes (for admin)
 app.use("/api/admin/contact", authenticateToken, (req, res, next) => {

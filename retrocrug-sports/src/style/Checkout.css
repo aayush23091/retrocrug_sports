@@ -8,14 +8,14 @@
 
 .checkout-container {
   background-color: whitesmoke;
-  width: 5800px; /* Increased width */
-  margin: 20rem auto 2rem auto; /* Increased top margin for gap below header */
+  max-width: 800px; /* Reasonable width */
+  margin: 2rem auto 2rem auto; /* Reduced top margin */
   padding: 2.5rem;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-  margin-top: 400px;
-  height: 1100px;
-  padding-top: 300px;
+  margin-top: 100px;
+  height: auto; /* Let content determine height */
+  padding-top: 20px;
 }
 
 .checkout-form label {
@@ -62,6 +62,48 @@
 
 .checkout-form button.btn-primary:hover {
   background-color: #b00000;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.order-summary {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.order-summary h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0 5px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }
 
 

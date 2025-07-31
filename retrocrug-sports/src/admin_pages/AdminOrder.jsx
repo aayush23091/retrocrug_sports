@@ -1,89 +1,129 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../style/AdminOrder.css';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
+import axios from 'axios';
 
 const AdminOrder = () => {
-  const [activeTab, setActiveTab] = React.useState('All Orders (441)');
+  const [activeTab, setActiveTab] = useState('All Orders');
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [orderCounts, setOrderCounts] = useState({
+    all: 0,
+    pending: 0,
+    shipping: 0,
+    completed: 0,
+    cancelled: 0
+  });
+
+  // Create an axios instance with the base URL
+  const api = axios.create({
+    baseURL: 'http://localhost:5000/api'
+  });
+
+  // Add a request interceptor to automatically add the Authorization header
+  api.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get('/orders');
+      const ordersData = response.data.data;
+      setOrders(ordersData);
+      
+      // Count orders by status
+      const counts = {
+        all: ordersData.length,
+        pending: ordersData.filter(order => order.status === 'Pending').length,
+        shipping: ordersData.filter(order => order.status === 'Shipping').length,
+        completed: ordersData.filter(order => order.status === 'Completed').length,
+        cancelled: ordersData.filter(order => order.status === 'Cancelled').length
+      };
+      setOrderCounts(counts);
+      
+      // Initialize filtered orders with all orders
+      setFilteredOrders(ordersData);
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      setError('Failed to fetch orders. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    
+    // Filter orders based on the selected tab
+    if (tab === 'All Orders') {
+      setFilteredOrders(orders);
+    } else {
+      const status = tab.split(' ')[0]; // Extract status from tab name
+      const filtered = orders.filter(order => order.status === status);
+      setFilteredOrders(filtered);
+    }
   };
 
-  const orders = [
-    {
-      id: '021231',
-      productName: 'SS cricket bat',
-      productImage: 'https://via.placeholder.com/40?text=Bat',
-      customer: 'Leslie Alexander',
-      price: 10000,
-      date: '04/17/23',
-      status: 'Shipping'
-    },
-    {
-      id: '021231',
-      productName: 'Mr yod football',
-      productImage: 'https://via.placeholder.com/40?text=Ball',
-      customer: 'Leslie Alexander',
-      price: 650,
-      date: '04/17/23',
-      status: 'Cancelled'
-    },
-    {
-      id: '021231',
-      productName: 'Kanky Kitadakate (Green)',
-      productImage: 'https://via.placeholder.com/40?text=Green',
-      customer: 'Leslie Alexander',
-      price: 2400,
-      date: '04/17/23',
-      status: 'Shipping'
-    },
-    {
-      id: '021231',
-      productName: 'Story Honzo (Cream)',
-      productImage: 'https://via.placeholder.com/40?text=Cream',
-      customer: 'Leslie Alexander',
-      price: 3000,
-      date: '04/17/23',
-      status: 'Shipping'
-    },
-    {
-      id: '021231',
-      productName: 'Kookaburra ball',
-      productImage: 'https://via.placeholder.com/40?text=Ball',
-      customer: 'Leslie Alexander',
-      price: 1200,
-      date: '04/17/23',
-      status: 'Cancelled'
-    },
-    {
-      id: '021231',
-      productName: 'GM shoes',
-      productImage: 'https://via.placeholder.com/40?text=Shoes',
-      customer: 'Leslie Alexander',
-      price: 6000,
-      date: '04/17/23',
-      status: 'Shipping'
-    },
-    {
-      id: '021231',
-      productName: 'Beige Coffe (Navy)',
-      productImage: 'https://via.placeholder.com/40?text=Navy',
-      customer: 'Leslie Alexander',
-      price: 2200,
-      date: '04/17/23',
-      status: 'Cancelled'
-    },
-    {
-      id: '021231',
-      productName: 'Wilson Racket',
-      productImage: 'https://via.placeholder.com/40?text=Racket',
-      customer: 'Leslie Alexander',
-      price: 7000,
-      date: '04/17/23',
-      status: 'Cancelled'
+  const handleSearch = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    
+    if (!term.trim()) {
+      // If search term is empty, show orders based on active tab
+      handleTabClick(activeTab);
+      return;
     }
-  ];
+    
+    // Filter orders based on search term and active tab
+    let filtered = orders;
+    if (activeTab !== 'All Orders') {
+      const status = activeTab.split(' ')[0];
+      filtered = orders.filter(order => order.status === status);
+    }
+    
+    // Further filter by search term
+    filtered = filtered.filter(order => 
+      order.id.toString().includes(term) || 
+      order.firstName.toLowerCase().includes(term.toLowerCase()) || 
+      order.lastName.toLowerCase().includes(term.toLowerCase()) ||
+      order.email.toLowerCase().includes(term.toLowerCase())
+    );
+    
+    setFilteredOrders(filtered);
+  };
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      await api.put(`/orders/${orderId}/status`, { status: newStatus });
+      fetchOrders(); // Refresh orders after status change
+    } catch (error) {
+      console.error('Error updating order status:', error);
+      alert('Failed to update order status. Please try again.');
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' });
+  };
 
   return (
     <div className="dashboard">
@@ -96,7 +136,9 @@ const AdminOrder = () => {
           <div style={{ marginBottom: '20px' }}>
             <input
               type="text"
-              placeholder="Search for iid, name product"
+              placeholder="Search for order ID, customer name or email"
+              value={searchTerm}
+              onChange={handleSearch}
               style={{
                 width: '100%',
                 padding: '10px 15px',
@@ -112,18 +154,24 @@ const AdminOrder = () => {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', backgroundColor: '#f8f9fa', borderRadius: '20px', color: '#54548B' }}>
-            {['All Orders (441)', 'Shipping (100)', 'Completed (300)', 'Cancel (41)'].map((tab) => (
+            {[
+              `All Orders (${orderCounts.all})`, 
+              `Pending (${orderCounts.pending})`, 
+              `Shipping (${orderCounts.shipping})`, 
+              `Completed (${orderCounts.completed})`, 
+              `Cancelled (${orderCounts.cancelled})`
+            ].map((tab) => (
               <div
                 key={tab}
-                onClick={() => handleTabClick(tab)}
+                onClick={() => handleTabClick(tab.split(' ')[0] + ' Orders')}
                 style={{
                   flex: 1,
                   textAlign: 'center',
                   padding: '10px 0',
                   borderRadius: '20px',
                   cursor: 'pointer',
-                  backgroundColor: activeTab === tab ? '#2E227B' : 'transparent',
-                  color: activeTab === tab ? 'white' : '#54548B',
+                  backgroundColor: activeTab === (tab.split(' ')[0] + ' Orders') ? '#2E227B' : 'transparent',
+                  color: activeTab === (tab.split(' ')[0] + ' Orders') ? 'white' : '#54548B',
                   border: '1px solid #2E227B',
                   userSelect: 'none'
                 }}
@@ -133,59 +181,96 @@ const AdminOrder = () => {
             ))}
           </div>
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', color: '#212529' }}>
-            <thead>
-              <tr style={{ backgroundColor: '#f8f9fa' }}>
-                <th><input type="checkbox" /></th>
-                <th>Orders</th>
-                <th>Customer</th>
-                <th>Price</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order, index) => (
-                <tr key={index} style={{ borderBottom: '1px solid #e9ecef' }}>
-                  <td><input type="checkbox" /></td>
-                  <td style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <img src={order.productImage} alt={order.productName} style={{ width: '40px', height: '40px', borderRadius: '5px' }} />
-                    <div>
-                      <a href="#" style={{ color: '#2E227B', fontWeight: '600', textDecoration: 'none' }}>{order.id}</a>
-                      <div>{order.productName}</div>
-                    </div>
-                  </td>
-                  <td>{order.customer}</td>
-                  <td>{order.price}</td>
-                  <td>{order.date}</td>
-                  <td>
-                    <span style={{
-                      padding: '5px 10px',
-                      borderRadius: '20px',
-                      fontSize: '0.8rem',
-                      fontWeight: '600',
-                      backgroundColor: order.status === 'Shipping' ? '#d6c9f9' : '#f9d6d6',
-                      color: order.status === 'Shipping' ? '#6a4ed6' : '#d66a6a'
-                    }}>
-                      {order.status}
-                    </span>
-                  </td>
-                  <td style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-                    <button title="View" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                      <i className="fas fa-eye"></i>
-                    </button>
-                    <button title="Edit" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                      <i className="fas fa-edit"></i>
-                    </button>
-                    <button title="Delete" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                      <i className="fas fa-trash"></i>
-                    </button>
-                  </td>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '20px' }}>Loading orders...</div>
+          ) : error ? (
+            <div style={{ color: 'red', textAlign: 'center', padding: '20px' }}>{error}</div>
+          ) : filteredOrders.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '20px' }}>No orders found.</div>
+          ) : (
+            <table style={{ width: '100%', borderCollapse: 'collapse', color: '#212529' }}>
+              <thead>
+                <tr style={{ backgroundColor: '#f8f9fa' }}>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredOrders.map((order) => (
+                  <tr key={order.id} style={{ borderBottom: '1px solid #e9ecef' }}>
+                    <td>
+                      <a href="#" style={{ color: '#2E227B', fontWeight: '600', textDecoration: 'none' }}>#{order.id}</a>
+                    </td>
+                    <td>
+                      <div>{order.firstName} {order.lastName}</div>
+                      <div style={{ fontSize: '0.8rem', color: '#666' }}>{order.email}</div>
+                    </td>
+                    <td>
+                      {order.OrderItems && order.OrderItems.length > 0 ? (
+                        <div>
+                          {order.OrderItems.slice(0, 2).map((item, idx) => (
+                            <div key={idx}>
+                              {item.Product?.productName} x {item.quantity}
+                            </div>
+                          ))}
+                          {order.OrderItems.length > 2 && (
+                            <div style={{ fontSize: '0.8rem', color: '#666' }}>+{order.OrderItems.length - 2} more items</div>
+                          )}
+                        </div>
+                      ) : (
+                        <div>No items</div>
+                      )}
+                    </td>
+                    <td>₹{order.totalAmount}</td>
+                    <td>{formatDate(order.createdAt)}</td>
+                    <td>
+                      <span style={{
+                        padding: '5px 10px',
+                        borderRadius: '20px',
+                        fontSize: '0.8rem',
+                        fontWeight: '600',
+                        backgroundColor: 
+                          order.status === 'Pending' ? '#fff3cd' :
+                          order.status === 'Shipping' ? '#d6c9f9' :
+                          order.status === 'Completed' ? '#d1e7dd' :
+                          '#f9d6d6',
+                        color: 
+                          order.status === 'Pending' ? '#856404' :
+                          order.status === 'Shipping' ? '#6a4ed6' :
+                          order.status === 'Completed' ? '#0f5132' :
+                          '#d66a6a'
+                      }}>
+                        {order.status}
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                        <select 
+                          value={order.status} 
+                          onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                          style={{
+                            padding: '5px',
+                            borderRadius: '5px',
+                            border: '1px solid #ddd'
+                          }}
+                        >
+                          <option value="Pending">Pending</option>
+                          <option value="Shipping">Shipping</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
