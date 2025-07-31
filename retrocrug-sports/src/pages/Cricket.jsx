@@ -71,4 +71,3 @@ const Cricket = () => {
 };
 
 export default Cricket;
-
