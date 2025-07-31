@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize'
+import { Sequelize, Op } from 'sequelize'
 import dotenv from 'dotenv'
 
 dotenv.config();
@@ -25,6 +25,9 @@ export const db = async () => {
     console.error("fail to connect database successfully",e)
   }
 }
+
+// Export the Op object for use in queries
+export { Op };
 
 
 

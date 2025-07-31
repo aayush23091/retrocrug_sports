@@ -11,6 +11,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Product from './pages/Product';
 import ProductDetail from './pages/ProductDetail';
+import MyOrders from './pages/MyOrders';
 import Cricket from './pages/Cricket';
 import Football from './pages/Football';
 import Rugby from './pages/Rugby';
@@ -56,6 +57,11 @@ function App() {
               <Route path="/football" element={<Football />} />
               <Route path="/rugby" element={<Rugby />} />
               <Route path="/tennis" element={<Tennis />} />
+              <Route path="/my-orders" element={
+                <UserRoute>
+                  <MyOrders />
+                </UserRoute>
+              } />
               <Route path="/*" element={<NotFound />} />
             </Routes>
           </CartProvider>
