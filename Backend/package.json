@@ -1,34 +1,26 @@
-{
+{ 
   "name": "Backend",
-  "version": "1.0.0",
-  "main": "backend/server.js",
-  "type": "module",
-  "description": "",
-  "author": "",
-  "license": "ISC",
-  "scripts": {
-    "dev": "nodemon backend/server.js",
-    "start": "node backend/server.js",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
-  },
-  "dependencies": {
-    "body-parser": "^1.20.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^2.0.1",
-    "pg": "^8.13.1",
-    "sequelize": "^6.37.7"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10",
-    "jest": "^29.7.0",
-    "supertest": "^6.3.3",
-    "babel-jest": "^29.7.0",
-    "@babel/core": "^7.24.0",
-    "@babel/preset-env": "^7.24.0"
-  }
-}
+   "version": "1.0.0",
+    "main": "index.js",
+     "scripts": { 
+      "dev": "nodemon src/index.js",
+       "start": "node src/index.js", 
+       "test": "jest"
+       }, 
+       "author": "",
+        "type": "module", 
+        "license": "ISC", 
+        "description": "",
+         "dependencies": { 
+          "body-parser": "^1.20.3",
+           "cors": "^2.8.5",
+            "dotenv": "^16.4.7",
+             "express": "^4.21.2",
+              "jsonwebtoken": "^9.0.2",
+               "multer": "^2.0.1",
+                "pg": "^8.13.1",
+                 "sequelize": "^6.37.7" 
+                 },
+                  "devDependencies": {
+                     "nodemon": "^3.1.10" 
+                     } }
