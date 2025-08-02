@@ -8,7 +8,7 @@ export function authenticateToken(req, res, next) {
   console.log("authenticateToken called");
   console.log("Request path:", req.path);
   console.log("Request method:", req.method);
-  
+
   // Skip token verification for the login route
   if (req.path === "/api/auth/login") {
     console.log("Skipping authentication for login route");
@@ -20,13 +20,8 @@ export function authenticateToken(req, res, next) {
   console.log("Full Authorization header:", authHeader);
 
   // Extract token from Authorization header
-  let token;
-  if (authHeader && authHeader.startsWith("Bearer ")) {
-    token = authHeader.split(" ")[1];
-    console.log("Extracted token:", token);
-  } else {
-    console.log("Authorization header malformed or missing Bearer prefix.");
-  }
+  const token = authHeader?.split(" ")[1];
+  console.log("Extracted token:", token);
 
   if (!token) {
     console.log("No token provided");
@@ -39,7 +34,7 @@ export function authenticateToken(req, res, next) {
     console.log("JWT verification result:");
     console.log("Error:", err);
     console.log("Decoded:", decoded);
-    
+
     if (err) {
       console.log("Token verification failed");
       return res.status(403).send("Invalid or expired token.");

@@ -1,6 +1,6 @@
 import { Order, OrderItem, User, Product } from '../../models/index.js';
 import { CartItem } from '../../models/user/CartItem.js';
-import { sequelize, Op } from '../../database/index.js';
+import { sequelize } from '../../database/index.js';
 
 /**
  * Create a new order
@@ -100,9 +100,6 @@ const createOrder = async (req, res) => {
 const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.findAll({
-      where: {
-        status: { [Op.ne]: 'Cancelled' } // Exclude cancelled orders by default
-      },
       include: [
         { model: User, attributes: ['id', 'name', 'email'] },
         { 
@@ -118,7 +115,7 @@ const getAllOrders = async (req, res) => {
       data: orders
     });
   } catch (error) {
-    console.error('Error fetching orders:', error.stack);
+    console.error('Error fetching orders:', error);
     res.status(500).json({ error: 'Failed to fetch orders' });
   }
 };
@@ -160,10 +157,7 @@ const getOrderById = async (req, res) => {
  */
 const getOrdersByUserId = async (req, res) => {
   try {
-    // Extract userId from the decoded token structure
-    const userId = req.user.user ? req.user.user.id : req.user.id;
-    
-    console.log('Fetching orders for userId:', userId);
+    const { userId } = req.params;
     
     const orders = await Order.findAll({
       where: { userId },
@@ -193,10 +187,6 @@ const updateOrderStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    // Extract userId from the decoded token structure
-    const userId = req.user.user ? req.user.user.id : req.user.id;
-    
-    console.log('Updating order status for userId:', userId);
 
     if (!status || !['Pending', 'Shipping', 'Completed', 'Cancelled'].includes(status)) {
       return res.status(400).json({ error: 'Invalid status' });
@@ -206,11 +196,6 @@ const updateOrderStatus = async (req, res) => {
 
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
-    }
-
-    // Allow users to cancel their own orders
-    if (status === 'Cancelled' && order.userId !== userId) {
-      return res.status(403).json({ error: 'You are not authorized to cancel this order.' });
     }
 
     order.status = status;

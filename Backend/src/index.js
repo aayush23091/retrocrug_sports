@@ -26,10 +26,10 @@ app.use(bodyParser.json());
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter); // Make product routes public
 app.use("/api/contact", contactRouter); // Public route for contact form submission
-app.use("/api/users", userRouter); // Make user creation public
 
 // Protect routes below
 app.use(authenticateToken);
+app.use("/api/users", userRouter); // Make user routes protected
 app.use("/api/file", router);
 app.use("/api/orders", orderRouter);
 app.use("/api/admin", adminRoute); // Mount admin routes
